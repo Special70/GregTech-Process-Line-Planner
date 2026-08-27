@@ -1,3 +1,5 @@
+@import '@xyflow/react/dist/style.css' layer(base);
+
 @import "tailwindcss";
 
 @font-face {
@@ -30,3 +32,15 @@
 }
 
 @tailwind utilities;
+
+.react-flow__edges {
+  z-index: 1000 !important;
+}
+
+.react-flow__edge-path {
+  stroke: black;
+}
+
+.react-flow__node {
+   z-index: -1 !important;
+}

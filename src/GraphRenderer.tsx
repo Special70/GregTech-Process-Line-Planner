@@ -1,14 +1,23 @@
 import './index.css'
 import gregtech_icon from './assets/images/gregtech.webp'
-import { ReactFlow, Background, Controls } from '@xyflow/react';
+import { ReactFlow, Background, Controls, addEdge } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGraphDataContext } from './contexts/GraphDataContext';
 import { nodeTypes } from './assets/types/NodeTypes';
 import { useAddMachineNode } from './functions/addMachineNode';
+import { useAddSourceNode } from './functions/addSourceNode';
+import { useCallback } from 'react';
 
 function GraphRenderer() {
   const { nodes, edges, onNodesChange, onEdgesChange, setNodes, setEdges } = useGraphDataContext();
 
+  const addSourceNode = useAddSourceNode();
+  const addMachineNode = useAddMachineNode();
+
+  const onConnect = useCallback(
+    (params: any) => setEdges((eds) => addEdge({ ...params}, eds)),
+    [],
+  );
 
   return (
     <>
@@ -18,11 +27,11 @@ function GraphRenderer() {
           <div className="text-2xl text-center p-3 font-[Minecraft]">
             GregTech Process Line Planner
           </div>
-          <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900" onClick={useAddMachineNode()}>
+          <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900" onClick={addSourceNode}>
             Create New Source Node
 
           </div>
-          <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-80 hover:bg-gray-800 active:bg-gray-900">
+          <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-80 hover:bg-gray-800 active:bg-gray-900" onClick={addMachineNode}>
             Create New Machine Node
           </div>
           <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-80 hover:bg-gray-800 active:bg-gray-900">
@@ -35,7 +44,15 @@ function GraphRenderer() {
   edges={edges}
   onNodesChange={onNodesChange}
   onEdgesChange={onEdgesChange}
+  onConnect={onConnect}
   nodeTypes={nodeTypes}
+  snapToGrid={true}
+
+    defaultEdgeOptions={{
+        animated: true,
+        style: { stroke: 'black' },
+        zIndex: 1000,
+    }}
   >
             <Background gap={20} />
             <Controls />

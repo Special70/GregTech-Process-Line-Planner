@@ -1,20 +1,23 @@
 
 import type { Node, NodeProps } from '@xyflow/react';
 import type { NodeData } from '../assets/types/DataTypes';
+import MachineNode from './MachineNode';
+import type { GraphNodeType } from '../assets/types/NodeTypes';
+import SourceNode from './SourceNode';
 
-type GraphNodeType = Node<NodeData, "nodeData">
-export default function GraphNode({ data }: NodeProps<GraphNodeType>) {
-    if (data.type == "machine_node") {
+export default function GraphNode(props: NodeProps<GraphNodeType>) {
+    if (props.data.type == "machine_node") {
     return (
         <>
-            <div className="bg-gray-300 min-w-70 min-h-20 flex-1 border rounded-lg" id={data.id}>
-                <div className="bg-gray-300 w-full h-20 rounded-lg flex justify-center items-start">
-
-                    <input id={data.id+"_name"} placeholder="Machine Name" className="bg-white border m-2 text-center" autoComplete='off' />
-                </div>
-            </div>
+           <MachineNode {...props}/>
         </>
     );}
+
+    else if (props.data.type == "source_node") {
+        return (
+            <SourceNode {...props}/>
+        )
+    }
     else {
         return (
             <></>
