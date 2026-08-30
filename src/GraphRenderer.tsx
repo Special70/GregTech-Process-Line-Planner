@@ -15,7 +15,7 @@ function GraphRenderer() {
   const addMachineNode = useAddMachineNode();
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge({ ...params}, eds)),
+    (params: any) => setEdges((eds) => addEdge({ ...params }, eds)),
     [],
   );
 
@@ -40,20 +40,22 @@ function GraphRenderer() {
         </div>
         <div className="w-7/8 bg-white">
           <ReactFlow
-  nodes={nodes}
-  edges={edges}
-  onNodesChange={onNodesChange}
-  onEdgesChange={onEdgesChange}
-  onConnect={onConnect}
-  nodeTypes={nodeTypes}
-  snapToGrid={true}
+            nodes={nodes}
+            edges={edges}
+            onNodesChange={onNodesChange}
+            onEdgesChange={onEdgesChange}
+            onConnect={onConnect}
+            nodeTypes={nodeTypes}
+            snapToGrid={true}
+            minZoom={0.1}
+            maxZoom={5}
 
-    defaultEdgeOptions={{
-        animated: true,
-        style: { stroke: 'black' },
-        zIndex: 1000,
-    }}
-  >
+            defaultEdgeOptions={{
+              animated: true,
+              style: { stroke: 'black' },
+              zIndex: 1000,
+            }}
+          >
             <Background gap={20} />
             <Controls />
           </ReactFlow>
