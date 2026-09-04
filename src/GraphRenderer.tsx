@@ -6,7 +6,7 @@ import { useGraphDataContext } from './contexts/GraphDataContext';
 import { nodeTypes } from './assets/types/NodeTypes';
 import { useAddMachineNode } from './functions/addMachineNode';
 import { useAddSourceNode } from './functions/addSourceNode';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 function GraphRenderer() {
   const { nodes, edges, onNodesChange, onEdgesChange, setNodes, setEdges } = useGraphDataContext();
@@ -21,6 +21,8 @@ function GraphRenderer() {
 
   return (
     <>
+      {/* Renders the material search box */}
+      <div id="node-overlay-root" style={{ position: 'fixed', top: 0, left: 0, zIndex: 9999, pointerEvents: 'none' }} />
       <div className="w-screen h-screen  flex flex-row">
         <div className=" w-1/8 min-w-50 mr-auto bg-gray-500 flex-row shadow-2xl">
           <img src={gregtech_icon} className="w-1/2 m-auto p-3 " />

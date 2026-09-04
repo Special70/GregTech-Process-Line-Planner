@@ -1,7 +1,9 @@
 
-import { Handle, Position, useUpdateNodeInternals, type Node, type NodeProps } from '@xyflow/react';
+import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
 import type { GraphNodeType } from '../assets/types/NodeTypes';
 import { useEffect, useRef, useState } from 'react';
+import { getColorBasedOnVoltageTier } from '../functions/voltageColorClass';
+import { MachineNodeSuggester } from './machine_node_components/MachineNameSuggester';
 
 function MachineNode(props: NodeProps<GraphNodeType>) {
     const updateNodeInternals = useUpdateNodeInternals();
@@ -11,6 +13,12 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
 
     const [inputListValues, setInputListValues] = useState<string[][]>([]);
     const [outputListValues, setOutputListValues] = useState<string[][]>([]);
+
+    const [isEditingMachineName, setIsEditingMachineName] = useState<boolean>(false);
+    const [machineName, setMachineName] = useState<string>("");
+    const machineNameRef = useRef<HTMLInputElement | any>(null);
+
+    const [voltageTier, setVoltageTier] = useState<string>("lv");
 
     const inputListIndexRef = useRef<number>(0);
     const outputListIndexRef = useRef<number>(0);
@@ -24,7 +32,7 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
         outputListIndexRef.current = outputListIndexRef.current += 1;
     };
 
-    useEffect(()=>{
+    useEffect(() => {
         updateNodeInternals(props.id);
     }, [inputListValues.length, outputListValues.length, props.id, updateNodeInternals])
 
@@ -44,11 +52,29 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                 backgroundColor: "green",
                 borderRadius: '50%', // keep it circular at the bigger size
             }} />
-        <div className=" w-full h-auto flex justify-center items-center flex-col">
+        <div className=" w-full h-auto flex justify-center items-center flex-col font-[Minecraft]">
             <div>
                 Machine Node
             </div>
-            <input id={props.data.id + "_name"} placeholder="Machine Name" className="bg-white border m-2 text-center" autoComplete='off' />
+
+
+
+            <div className='relative'>
+                <input id={props.data.id + "_name"} 
+                    ref={machineNameRef} placeholder="Machine Name" 
+                    className="bg-white border m-2 text-center w-100" 
+                    autoComplete='off' 
+                    onFocus={() => { setIsEditingMachineName(true) }} 
+                    onBlur={() => { setIsEditingMachineName(false) }} 
+                    value={machineName}
+                    onChange={(e)=>{setMachineName(e.target.value)}}
+                    //style={{width: machineName.length+"px"}}
+                />
+                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={props.data.id} setName={setMachineName}/>)}
+            </div>
+
+
+
             <div className=" w-200 min-h-40 h-auto flex flex-row mb-5 ml-12 mr-12">
                 <div className=" w-1/2 min-h-20 h-auto flex flex-col items-center justify-start">
                     <div>Inputs</div>
@@ -135,7 +161,23 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
             <div>
                 Voltage Level
             </div>
-            <input id={props.data.id + "_voltage"} placeholder="Voltage Tier" className="bg-white border m-2 text-center" autoComplete='off' />
+            <select id={props.data.id + "_voltage"} className={`bg-gray-400 border border-black m-2 text-center w-20 appearance-none ${getColorBasedOnVoltageTier(voltageTier)}`} autoComplete='off' defaultValue={"lv"} onChange={(e) => { setVoltageTier(e.target.value) }}>
+                <option value="ulv" className='text-gray-900 text-center'>ULV</option>
+                <option value="lv" className='text-gray-600 text-center'>LV</option>
+                <option value="mv" className='text-blue-200 text-center'>MV</option>
+                <option value="hv" className='text-yellow-500 text-center'>HV</option>
+                <option value="ev" className='text-purple-800 text-center'>EV</option>
+                <option value="iv" className='text-blue-800 text-center'>IV</option>
+                <option value="luv" className='text-pink-500 text-center'>LuV</option>
+                <option value="zpm" className='text-red-600 text-center'>ZPM</option>
+                <option value="uv" className='text-cyan-600 text-center'>UV</option>
+                <option value="uhv" className='text-red-800 text-center'>UHV</option>
+                <option value="uev" className='text-lime-400 text-center'>UEV</option>
+                <option value="uiv" className='text-green-700 text-center'>UIV</option>
+                <option value="uxv" className='text-yellow-200 text-center'>UXV</option>
+                <option value="opv" className='text-blue-700 font-bold text-center'>OpV</option>
+                <option value="max" className='text-red-600 font-bold text-center'>MAX</option>
+            </select>
         </div>
     </div>;
 
