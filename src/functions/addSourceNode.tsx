@@ -10,8 +10,14 @@ export function useAddSourceNode()  {
             data: {
                 id: crypto.randomUUID(),
                 type: 'source_node',
-                name: '',
-                inputs: [],
+                name: 'NaN',
+                inputs: [{
+                    id: "1",
+                    name: "", 
+                    img_filename: "",
+                    amount: "Undefined",
+                    consume_chance: "Undefined"
+                }],
                 outputs: [],
                 voltage_tier: '',
             },

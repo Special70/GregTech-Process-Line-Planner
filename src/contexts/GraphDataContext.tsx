@@ -25,7 +25,7 @@ interface FlowContextType {
     onEdgesChange: OnEdgesChange<Edge>;
 }
 
-export const GraphDataContext = createContext<FlowContextType | undefined>(undefined);
+const GraphDataContext = createContext<FlowContextType | undefined>(undefined);
 
 
 export const GraphDataContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

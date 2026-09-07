@@ -1,11 +1,16 @@
 
 import type { Node, NodeProps } from '@xyflow/react';
 import type { NodeData } from '../assets/types/DataTypes';
-import MachineNode from './MachineNode';
+import MachineNode from './nodes/MachineNode';
 import type { GraphNodeType } from '../assets/types/NodeTypes';
-import SourceNode from './SourceNode';
+import SourceNode from './nodes/SourceNode';
 
-export default function GraphNode(props: NodeProps<GraphNodeType>) {
+/**
+ * The main component for creating nodes in the graph. 
+ * @param props 
+ * @returns 
+ */
+export default function GraphNodeParentComponent(props: NodeProps<GraphNodeType>) {
     if (props.data.type == "machine_node") {
     return (
         <>

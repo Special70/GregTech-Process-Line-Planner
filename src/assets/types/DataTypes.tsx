@@ -10,15 +10,15 @@ export type NodeData = {
 type InputIngredientData = {
     id: string,
     name: string,
-    amount: number,
-    amount_range: number | null,
-    consume_chance: number | null,
+    img_filename: string,
+    amount: string,
+    consume_chance: string,
 }
 
 type OutputIngredientData = {
     id: string,
     name: string,
-    amount: number,
-    amount_range: number | null,
+    img_filename: string,
+    amount: string,
 }
 

@@ -1,3 +1,8 @@
+/**
+ * Handles access towards image atlas of Star Technology modpack items exported from IconExporter and the jsons that contains
+ * the file name, image atlas coordinates and ingame name of the items/fluids.
+ */
+
 import { createContext, useContext, useEffect, useState } from 'react';
 
 type AtlasEntry = { sheet: number; x: number; y: number };
@@ -10,7 +15,7 @@ interface AssetDataContextProps {
     imageToNamePairsData: NamePair[] | null;
 }
 
-export const AssetDataContext = createContext<AssetDataContextProps | undefined>(undefined);
+const AssetDataContext = createContext<AssetDataContextProps | undefined>(undefined);
 
 
 export const AssetDataContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

@@ -1,9 +1,9 @@
 
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
-import type { GraphNodeType } from '../assets/types/NodeTypes';
+import type { GraphNodeType } from '../../assets/types/NodeTypes';
 import { useEffect, useRef, useState } from 'react';
-import { getColorBasedOnVoltageTier } from '../functions/voltageColorClass';
-import { MachineNodeSuggester } from './machine_node_components/MachineNameSuggester';
+import { getColorBasedOnVoltageTier } from '../../functions/voltageColorClass';
+import { MachineNodeSuggester } from '../machine_node_components/MachineNameSuggester';
 
 function MachineNode(props: NodeProps<GraphNodeType>) {
     const updateNodeInternals = useUpdateNodeInternals();
@@ -52,7 +52,9 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                 backgroundColor: "green",
                 borderRadius: '50%', // keep it circular at the bigger size
             }} />
-        <div className=" w-full h-auto flex justify-center items-center flex-col font-[Minecraft]">
+
+
+        <div className="w-full h-auto flex justify-center items-center flex-col font-[Minecraft]">
             <div>
                 Machine Node
             </div>
@@ -68,7 +70,6 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                     onBlur={() => { setIsEditingMachineName(false) }} 
                     value={machineName}
                     onChange={(e)=>{setMachineName(e.target.value)}}
-                    //style={{width: machineName.length+"px"}}
                 />
                 {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={props.data.id} setName={setMachineName}/>)}
             </div>
