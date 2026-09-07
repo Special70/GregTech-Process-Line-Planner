@@ -2,13 +2,15 @@
  * Used by source and machine nodes to send information to the Material Suggester sideview
  */
 
-import { createContext, useContext, useRef} from 'react';
+import { createContext, useContext, useRef } from 'react';
 import { ClientViewTypes, useClientViewHandlerContext } from './ClientViewHandlerContext';
 
 export type MaterialSuggesterDataProps = {
     toggleView: (nodeId: string) => void
-    submitDataDetails: (type: string, id: string, name: string) => void
+    submitDataDetails: (type: string, id: string, name: string, amount: string, consumeChance: string) => void
     materialName: React.RefObject<string>
+    amount: React.RefObject<string>
+    consumeChance: React.RefObject<string>
     handledNodeId: React.RefObject<string>
     inputOrOutput: React.RefObject<string>
     ingredientID: React.RefObject<string>
@@ -26,11 +28,13 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
 
     /// For handling data pointer towards node input/output ingredients
     // So if the user wants to make small changes to the current selection's name. Ex: Indium => Indium Tin Barium
-    const materialName = useRef("titanium") 
+    const materialName = useRef("titanium")
+    const amount = useRef("0")
+    const consumeChance = useRef("0")
     // So the logic would know if the modification target is in the input or output of the data node
     const inputOrOutput = useRef("input")
     // So the logic would know which index to modify in the input/output array of a data node 
-    const ingredientID = useRef("0"); 
+    const ingredientID = useRef("0");
 
     /**
      * Toggles the view of the material suggester but with extra steps. 
@@ -57,16 +61,18 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
      * @param type 
      * @param index 
      */
-    function submitDataDetails(type: string, index: string, name: string) {
+    function submitDataDetails(type: string, index: string, name: string, amountArg: string, consumeChanceArg: string) {
         inputOrOutput.current = type;
         ingredientID.current = index;
-        materialName.current = name; 
+        materialName.current = name;
+        amount.current = amountArg;
+        consumeChance.current = consumeChanceArg;
     }
 
     return (
         <MaterialSuggesterDataContext.Provider
             value={{
-                toggleView, submitDataDetails, materialName, handledNodeId, inputOrOutput, ingredientID
+                toggleView, submitDataDetails, materialName, amount, consumeChance, handledNodeId, inputOrOutput, ingredientID
             }}
         >
             {children}

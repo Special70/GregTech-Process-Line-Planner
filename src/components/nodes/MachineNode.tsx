@@ -4,9 +4,15 @@ import type { GraphNodeType } from '../../assets/types/NodeTypes';
 import { useEffect, useRef, useState } from 'react';
 import { getColorBasedOnVoltageTier } from '../../functions/voltageColorClass';
 import { MachineNodeSuggester } from '../machine_node_components/MachineNameSuggester';
+import { useDeleteNodeAndEdges } from '../../functions/deleteNodeAndEdges';
+import { useAddMachineInput } from '../../functions/addMachineInput';
+import { useMaterialSuggesterData } from '../../contexts/MaterialSuggesterDataContext';
+import { MaterialDisplayHolder } from '../machine_node_components/MaterialDisplayHolder';
 
 function MachineNode(props: NodeProps<GraphNodeType>) {
     const updateNodeInternals = useUpdateNodeInternals();
+    const deleteNodeAndEdges = useDeleteNodeAndEdges();
+    const addMachineInput = useAddMachineInput();
 
     const inputListRef = useRef<HTMLDivElement | any>(null);
     const outputListRef = useRef<HTMLDivElement | any>(null);
@@ -23,10 +29,7 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
     const inputListIndexRef = useRef<number>(0);
     const outputListIndexRef = useRef<number>(0);
 
-    const addNewIngredientInput = () => {
-        setInputListValues((prev) => [...prev, [inputListIndexRef.current.toString(), "", ""]]);
-        inputListIndexRef.current = inputListIndexRef.current += 1;
-    };
+
     const addNewIngredientOutput = () => {
         setOutputListValues((prev) => [...prev, [outputListIndexRef.current.toString(), "", ""]]);
         outputListIndexRef.current = outputListIndexRef.current += 1;
@@ -62,16 +65,16 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
 
 
             <div className='relative'>
-                <input id={props.data.id + "_name"} 
-                    ref={machineNameRef} placeholder="Machine Name" 
-                    className="bg-white border m-2 text-center w-100" 
-                    autoComplete='off' 
-                    onFocus={() => { setIsEditingMachineName(true) }} 
-                    onBlur={() => { setIsEditingMachineName(false) }} 
+                <input id={props.data.id + "_name"}
+                    ref={machineNameRef} placeholder="Machine Name"
+                    className="bg-white border m-2 text-center w-100"
+                    autoComplete='off'
+                    onFocus={() => { setIsEditingMachineName(true) }}
+                    onBlur={() => { setIsEditingMachineName(false) }}
                     value={machineName}
-                    onChange={(e)=>{setMachineName(e.target.value)}}
+                    onChange={(e) => { setMachineName(e.target.value) }}
                 />
-                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={props.data.id} setName={setMachineName}/>)}
+                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={props.data.id} setName={setMachineName} />)}
             </div>
 
 
@@ -80,7 +83,7 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                 <div className=" w-1/2 min-h-20 h-auto flex flex-col items-center justify-start">
                     <div>Inputs</div>
                     <div className="p-2  justify-center flex flex-col" ref={inputListRef}>
-                        {inputListValues.map((item, itemIndex) => (
+                        {props.data.inputs.map((item, itemIndex) => (
                             <div
                                 className="bg-white border mb-2 flex flex-row items-center relative shadow-lg"
                                 key={`${itemIndex}_input_ingredient_div`}
@@ -102,19 +105,11 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                                         borderRadius: '50%',
                                     }}
                                 />
-                                <input
-                                    id={`${itemIndex}_input_ingredient`}
-                                    placeholder="Item / Fluid"
-                                    className="pl-2 border w-3/4"
-                                />
-                                <input
-                                    id={`${itemIndex}_input_ingredient`}
-                                    placeholder="Amount"
-                                    className="pl-2 border w-1/4"
-                                />
+
+                                <MaterialDisplayHolder id={item.id} name={item.name} img_filename={item.img_filename} amount={item.amount} consume_chance={item.consume_chance}  />
                             </div>
                         ))}
-                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg" onClick={addNewIngredientInput}>Add New Input</button>
+                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg" onClick={() => { addMachineInput(props.id) }}>Add New Input</button>
                     </div>
                 </div>
                 <div className=" w-1/2 min-h-20 h-auto flex flex-col items-center justify-start">
@@ -179,6 +174,8 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                 <option value="opv" className='text-blue-700 font-bold text-center'>OpV</option>
                 <option value="max" className='text-red-600 font-bold text-center'>MAX</option>
             </select>
+
+            <button className="bg-red-500 mb-2 pl-2 pr-2 hover:bg-red-600 active:bg-red-700" onClick={() => { deleteNodeAndEdges(props.id) }}>Delete Machine Node</button>
         </div>
     </div>;
 

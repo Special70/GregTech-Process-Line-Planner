@@ -14,6 +14,7 @@ export function useAddMachineNode()  {
                 inputs: [],
                 outputs: [],
                 voltage_tier: '',
+                other_info: ""
             },
             type: 'graphNode',
         };

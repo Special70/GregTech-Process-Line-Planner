@@ -5,9 +5,10 @@ export type NodeData = {
     inputs: InputIngredientData[],
     outputs: OutputIngredientData[],
     voltage_tier: string,
+    other_info: string,
 }
 
-type InputIngredientData = {
+export type InputIngredientData = {
     id: string,
     name: string,
     img_filename: string,
@@ -15,7 +16,7 @@ type InputIngredientData = {
     consume_chance: string,
 }
 
-type OutputIngredientData = {
+export type OutputIngredientData = {
     id: string,
     name: string,
     img_filename: string,

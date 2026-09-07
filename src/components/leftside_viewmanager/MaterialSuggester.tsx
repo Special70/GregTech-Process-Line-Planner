@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAssetDataContext } from "../../contexts/AssetDataContext"
 import { SpriteIcon } from "../machine_node_components/SpriteIcon";
 import { useMaterialSuggesterData } from "../../contexts/MaterialSuggesterDataContext";
@@ -15,22 +15,23 @@ export function MaterialSuggester() {
     const { setCurrentViewType } = useClientViewHandlerContext();
     const { imageToNamePairsData } = useAssetDataContext();
     const { setNodes } = useGraphDataContext();
-    const { handledNodeId, materialName, inputOrOutput, ingredientID } = useMaterialSuggesterData();
+    const { handledNodeId, materialName, amount, consumeChance, inputOrOutput, ingredientID } = useMaterialSuggesterData();
     // Pointer access for div portal
 
     // useStates
     const [searchEntry, setSearchEntry] = useState(materialName.current);
+    const [amountEntry, setAmountEntry] = useState(amount.current);
+    const [consumeChanceEntry, setConsumeChanceEntry] = useState(consumeChance.current);
+
+    useEffect(()=>{
+        setSearchEntry(materialName.current);
+    },[materialName.current]);
 
     /**
      * By utilizing the context provider, it grabs details from the img_to_name_pairs.json file for ingame name suggestions.
-     * 
-     * Exported metadata somehow included cable facades from AE2, which I don't want. Including buckets too.
-     * @param input the typed text in the input field
-     * @returns filtered imageToNamePairsData based on input. Will give up to 10 results
      */
-    function generateSuggestions(input: string) {
-        const queryWords = input.toLowerCase().split(/\s+/).filter(Boolean); // split on whitespace, drop empty strings
-
+    const suggestions = useMemo(() => {
+        const queryWords = searchEntry.toLowerCase().split(/\s+/).filter(Boolean);
         return imageToNamePairsData
             ?.filter(item => {
                 const name = item["1"].toLowerCase();
@@ -40,7 +41,7 @@ export function MaterialSuggester() {
             })
             .sort((a, b) => a["1"].length - b["1"].length)
             .slice(0, 10);
-    }
+    }, [searchEntry]);
 
     function modifyNode(target_node_id: string, item_name: string, item_file_name: string) {
         setNodes((nodes) => nodes.map((node) => {
@@ -53,7 +54,7 @@ export function MaterialSuggester() {
                 return {
                     ...node, data: {
                         ...node.data,
-                        inputs: node.data.inputs.map((input) => input.id === ingredientID.current ? { ...input, name: item_name, img_filename: item_file_name } : input)
+                        inputs: node.data.inputs.map((input) => input.id === ingredientID.current ? { ...input, name: item_name, img_filename: item_file_name, amount: amountEntry, consume_chance: consumeChanceEntry } : input)
                     }
                 }
             } else {
@@ -61,7 +62,7 @@ export function MaterialSuggester() {
                 return {
                     ...node, data: {
                         ...node.data,
-                        outputs: node.data.outputs.map((output) => output.id === ingredientID.current ? { ...output, name: item_name, img_filename: item_file_name } : output)
+                        outputs: node.data.outputs.map((output) => output.id === ingredientID.current ? { ...output, name: item_name, img_filename: item_file_name, amount: amountEntry, consume_chance: consumeChanceEntry } : output)
                     }
                 }
             }
@@ -82,12 +83,12 @@ export function MaterialSuggester() {
             onChange={(e) => { setSearchEntry(e.target.value) }}
         />
         <div className="mb-2 w-3/4 flex flex-row justify-between">
-            <input className="w-1/2 h-10 bg-white p-2" placeholder="Amount"/>
+            <input className="w-1/2 h-10 bg-white p-2" placeholder="Amount" value={amountEntry} onChange={(e)=>{setAmountEntry(e.target.value)}} />
             <div className="w-2"></div>
-            <input className="w-1/2 h-10 bg-white p-2" placeholder="Consume %"/>
+            <input className="w-1/2 h-10 bg-white p-2" placeholder="Consume %" value={consumeChanceEntry} onChange={(e)=>{setConsumeChanceEntry(e.target.value)}} />
         </div>
         <div className="text-center bg-white mb-5 w-3/4">
-            {generateSuggestions(searchEntry)?.map((item, index) => {
+            {suggestions?.map((item, index) => {
 
                 return <div className="flex flex-row border-b-2 hover:cursor-default" key={index}
                     onMouseDown={(e) => { e.preventDefault() }}

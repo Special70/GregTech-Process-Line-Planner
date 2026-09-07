@@ -20,6 +20,7 @@ export function useAddSourceNode()  {
                 }],
                 outputs: [],
                 voltage_tier: '',
+                other_info: ''
             },
             type: 'graphNode',
         };
