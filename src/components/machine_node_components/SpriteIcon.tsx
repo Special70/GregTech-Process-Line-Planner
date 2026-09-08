@@ -22,6 +22,7 @@ export function SpriteIcon({ id, size = 64 }: SpriteIconProps) {
                 backgroundPosition: `-${entry.x}px -${entry.y}px`,
                 backgroundRepeat: 'no-repeat',
                 imageRendering: 'pixelated',
+                
             }}
         />
     );

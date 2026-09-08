@@ -59,10 +59,10 @@ function SourceNode(props: NodeProps<GraphNodeType>) {
             </div>
 
             <div className="relative inline-block group">
-                <button className="min-w-15 min-h-15 w-auto h-auto bg-white border-2 mb-1 nodrag" onClick={() => {
+                <button className="w-auto h-auto bg-white border-2 mb-1 nodrag" onClick={() => {
                     submitDataDetails("input", "1", props.data.inputs[0].name, props.data.inputs[0].amount, props.data.inputs[0].consume_chance);
                     toggleView(props.id);
-                }}>{selectedMaterialFile != "NaN" ? <SpriteIcon id={selectedMaterialFile} /> : "NaN"}</button>
+                }}>{selectedMaterialFile != "NaN" ? <SpriteIcon id={selectedMaterialFile} /> : <SpriteIcon id={"null"} />}</button>
                 {props.data.inputs[0].name.length > 0 && <div className="absolute top-full left-full mt-2 ml-2
             opacity-0 scale-95 pointer-events-none
             group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto

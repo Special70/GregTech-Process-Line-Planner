@@ -20,10 +20,10 @@ export function MaterialDisplayHolder(props: MaterialDisplayHolderProps) {
     const { toggleView, submitDataDetails } = useMaterialSuggesterData();
     return <>
         <div className="relative inline-block group">
-            <button className="min-w-15 min-h-15 w-auto h-auto bg-white border-2 mb-1 nodrag" onClick={() => {
+            <button className="w-17 h-17 bg-white border-2 nodrag" onClick={() => {
                 submitDataDetails("input", props.ingredientData.id, props.ingredientData.name, props.ingredientData.amount, props.ingredientData.consume_chance);
                 toggleView(props.nodeId);
-            }}>{selectedMaterialFile != "NaN" ? <SpriteIcon id={selectedMaterialFile} /> : "NaN"}</button>
+            }}><SpriteIcon id={selectedMaterialFile} /></button>
             {props.ingredientData.img_filename.length > 0 && <div className="absolute top-full left-full mt-2 ml-2
                             opacity-0 scale-95 pointer-events-none
                             group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto
