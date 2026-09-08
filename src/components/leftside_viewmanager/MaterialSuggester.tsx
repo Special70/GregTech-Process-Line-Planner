@@ -50,7 +50,6 @@ export function MaterialSuggester() {
             }
 
             if (inputOrOutput.current === "input") {
-
                 return {
                     ...node, data: {
                         ...node.data,
@@ -58,7 +57,6 @@ export function MaterialSuggester() {
                     }
                 }
             } else {
-
                 return {
                     ...node, data: {
                         ...node.data,
@@ -66,7 +64,7 @@ export function MaterialSuggester() {
                     }
                 }
             }
-
+            
         }));
     }
 

@@ -7,7 +7,7 @@ import { ClientViewTypes, useClientViewHandlerContext } from './ClientViewHandle
 
 export type MaterialSuggesterDataProps = {
     toggleView: (nodeId: string) => void
-    submitDataDetails: (type: string, id: string, name: string, amount: string, consumeChance: string) => void
+    submitDataDetails: (type: string, node_ingredient_id: string, material_name: string, amount: string, consumeChance: string) => void
     materialName: React.RefObject<string>
     amount: React.RefObject<string>
     consumeChance: React.RefObject<string>
@@ -57,13 +57,10 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
     /**
      * When an input/output opens the material suggester editor, it will submit its details
      * so the MaterialSuggester component could modify the correct display.
-     * @param nodeId 
-     * @param type 
-     * @param index 
      */
-    function submitDataDetails(type: string, index: string, name: string, amountArg: string, consumeChanceArg: string) {
+    function submitDataDetails(type: string, ingredientIDArg: string, name: string, amountArg: string, consumeChanceArg: string) {
         inputOrOutput.current = type;
-        ingredientID.current = index;
+        ingredientID.current = ingredientIDArg;
         materialName.current = name;
         amount.current = amountArg;
         consumeChance.current = consumeChanceArg;

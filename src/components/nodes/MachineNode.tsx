@@ -82,8 +82,9 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
             <div className=" w-200 min-h-40 h-auto flex flex-row mb-5 ml-12 mr-12">
                 <div className=" w-1/2 min-h-20 h-auto flex flex-col items-center justify-start">
                     <div>Inputs</div>
-                    <div className="p-2  justify-center flex flex-col" ref={inputListRef}>
+                    <div className="justify-center flex flex-col" ref={inputListRef}>
                         {props.data.inputs.map((item, itemIndex) => (
+                            <>
                             <div
                                 className="bg-white border mb-2 flex flex-row items-center relative shadow-lg"
                                 key={`${itemIndex}_input_ingredient_div`}
@@ -105,11 +106,17 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                                         borderRadius: '50%',
                                     }}
                                 />
-
-                                <MaterialDisplayHolder id={item.id} name={item.name} img_filename={item.img_filename} amount={item.amount} consume_chance={item.consume_chance}  />
+                                <MaterialDisplayHolder ingredientData={{
+                                    id: item.id,
+                                    name: item.name,
+                                    img_filename: item.img_filename,
+                                    amount: item.amount,
+                                    consume_chance: item.consume_chance
+                                }} nodeId={props.id} />
                             </div>
+                            </>
                         ))}
-                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg" onClick={() => { addMachineInput(props.id) }}>Add New Input</button>
+                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg nodrag" onClick={() => { addMachineInput(props.id) }}>Add New Input</button>
                     </div>
                 </div>
                 <div className=" w-1/2 min-h-20 h-auto flex flex-col items-center justify-start">
@@ -150,7 +157,7 @@ function MachineNode(props: NodeProps<GraphNodeType>) {
                                 />
                             </div>
                         ))}
-                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg" onClick={addNewIngredientOutput}>Add New Output</button>
+                        <button className="bg-white border-2 pl-1 pr-1 hover:bg-gray-200 active:bg-gray-400 shadow-lg nodrag" onClick={addNewIngredientOutput}>Add New Output</button>
                     </div>
                 </div>
             </div>
