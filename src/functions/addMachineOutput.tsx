@@ -1,33 +1,32 @@
-import type { InputIngredientData } from "../assets/types/DataTypes";
+import type { OutputIngredientData } from "../assets/types/DataTypes";
 import { useGraphDataContext } from "../contexts/GraphDataContext";
 
-export function useAddMachineInput() {
+export function useAddMachineOutput() {
     const { setNodes } = useGraphDataContext();
 
-    const addMachineInput = (target_node_id: string) => {
+    const addMachineOutput = (target_node_id: string) => {
         setNodes((nodes) => nodes.map((node) => {
             if (node.id !== target_node_id) {
                 return node;
             }
 
-            const newInput: InputIngredientData = {
+            const newOutput: OutputIngredientData = {
                 id: crypto.randomUUID(),
                 name: "",
                 img_filename: "",
                 amount: "1",
-                consume_chance: "0"
             }
 
             return {
                 ...node, data: {
                     ...node.data,
-                    inputs: [...node.data.inputs, newInput]
+                    outputs: [...node.data.outputs, newOutput]
                 }
             }
 
         }))
     }
 
-    return addMachineInput;
+    return addMachineOutput;
 
 }

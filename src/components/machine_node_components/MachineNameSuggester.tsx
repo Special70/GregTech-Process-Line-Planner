@@ -7,7 +7,6 @@ type MachineNodeSuggesterProps = {
 }
 
 export function MachineNodeSuggester(props: MachineNodeSuggesterProps) {
-
     let { emiCategoriesData } = useAssetDataContext();
     let suggestionResult = emiCategoriesData?.filter(item => item.toLowerCase().includes(props.inputTag.current.value.toLowerCase())).sort().slice(0, 10);
 

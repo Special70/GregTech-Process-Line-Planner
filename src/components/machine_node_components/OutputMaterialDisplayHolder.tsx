@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
-import type { InputIngredientData, OutputIngredientData } from "../../assets/types/DataTypes";
+import type { OutputIngredientData } from "../../assets/types/DataTypes";
 import { useMaterialSuggesterData } from "../../contexts/MaterialSuggesterDataContext";
 import { SpriteIcon } from "./SpriteIcon";
+import { MinecraftText } from "../../functions/minecraftColorCodeApplier";
 
 type MaterialDisplayHolderProps = {
-    ingredientData: InputIngredientData
+    ingredientData: OutputIngredientData
     nodeId: string
 }
 
-export function MaterialDisplayHolder(props: MaterialDisplayHolderProps) {
+export function OutputMaterialDisplayHolder(props: MaterialDisplayHolderProps) {
 
     const [selectedMaterialFile, setSelectedMaterialFile] = useState<string>(props.ingredientData.img_filename);
 
@@ -19,17 +20,18 @@ export function MaterialDisplayHolder(props: MaterialDisplayHolderProps) {
 
     const { toggleView, submitDataDetails } = useMaterialSuggesterData();
     return <>
-        <div className="relative inline-block group">
+        <div className="relative inline-flex group">
             <button className="w-17 h-17 bg-white border-2 nodrag" onClick={() => {
-                submitDataDetails("input", props.ingredientData.id, props.ingredientData.name, props.ingredientData.amount, props.ingredientData.consume_chance);
+                submitDataDetails("output", props.ingredientData.id, props.ingredientData.name, props.ingredientData.img_filename, props.ingredientData.amount, "0");
                 toggleView(props.nodeId);
-            }}><SpriteIcon id={selectedMaterialFile} /></button>
+            }}><SpriteIcon id={selectedMaterialFile}/></button>
             {props.ingredientData.img_filename.length > 0 && <div className="absolute top-full left-full mt-2 ml-2
                             opacity-0 scale-95 pointer-events-none
                             group-hover:opacity-100 group-hover:scale-100 group-hover:pointer-events-auto
                             transition duration-150 ease-out
-                            bg-gray-800 text-white text-sm px-2 py-1 rounded whitespace-nowrap">
-                {props.ingredientData.name}
+                            bg-gray-800 text-white text-sm px-2 py-1 rounded whitespace-nowrap z-200">
+                                                            <MinecraftText text={props.ingredientData.name} /><br/>
+                <span className="text-yellow-300">Amount: {props.ingredientData.amount}</span><br/>
             </div>}
         </div>
     </>

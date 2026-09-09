@@ -5,6 +5,7 @@ export type NodeData = {
     inputs: InputIngredientData[],
     outputs: OutputIngredientData[],
     voltage_tier: string,
+    programmingCircuit: string,
     other_info: string,
 }
 

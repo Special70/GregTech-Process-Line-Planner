@@ -7,8 +7,9 @@ import { ClientViewTypes, useClientViewHandlerContext } from './ClientViewHandle
 
 export type MaterialSuggesterDataProps = {
     toggleView: (nodeId: string) => void
-    submitDataDetails: (type: string, node_ingredient_id: string, material_name: string, amount: string, consumeChance: string) => void
+    submitDataDetails: (type: string, node_ingredient_id: string, material_name: string, materialImageFile: string, amount: string, consumeChance: string) => void
     materialName: React.RefObject<string>
+    materialImageFile: React.RefObject<string>
     amount: React.RefObject<string>
     consumeChance: React.RefObject<string>
     handledNodeId: React.RefObject<string>
@@ -29,6 +30,8 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
     /// For handling data pointer towards node input/output ingredients
     // So if the user wants to make small changes to the current selection's name. Ex: Indium => Indium Tin Barium
     const materialName = useRef("titanium")
+    // To support the volatile change of amount and consume chance
+    const materialImageFile = useRef("")
     const amount = useRef("0")
     const consumeChance = useRef("0")
     // So the logic would know if the modification target is in the input or output of the data node
@@ -58,10 +61,11 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
      * When an input/output opens the material suggester editor, it will submit its details
      * so the MaterialSuggester component could modify the correct display.
      */
-    function submitDataDetails(type: string, ingredientIDArg: string, name: string, amountArg: string, consumeChanceArg: string) {
+    function submitDataDetails(type: string, ingredientIDArg: string, name: string, materialImageFileArg: string, amountArg: string, consumeChanceArg: string) {
         inputOrOutput.current = type;
         ingredientID.current = ingredientIDArg;
         materialName.current = name;
+        materialImageFile.current = materialImageFileArg;
         amount.current = amountArg;
         consumeChance.current = consumeChanceArg;
     }
@@ -69,7 +73,7 @@ export const MaterialSuggesterDataProvider: React.FC<{ children: React.ReactNode
     return (
         <MaterialSuggesterDataContext.Provider
             value={{
-                toggleView, submitDataDetails, materialName, amount, consumeChance, handledNodeId, inputOrOutput, ingredientID
+                toggleView, submitDataDetails, materialName, materialImageFile, amount, consumeChance, handledNodeId, inputOrOutput, ingredientID
             }}
         >
             {children}

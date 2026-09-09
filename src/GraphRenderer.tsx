@@ -1,20 +1,42 @@
 import './index.css'
-import { ReactFlow, Background, Controls, addEdge } from '@xyflow/react';
+import { ReactFlow, Background, Controls, addEdge, type Connection } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGraphDataContext } from './contexts/GraphDataContext';
 import { nodeTypes } from './assets/types/NodeTypes';
-import { useAddMachineNode } from './functions/addMachineNode';
-import { useAddSourceNode } from './functions/addSourceNode';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useRef } from 'react';
 import { LeftSideViewManager } from './components/LeftSideViewManager';
+import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToInput';
+import { useClientViewHandlerContext } from './contexts/ClientViewHandlerContext';
+import { resolveCollisions } from './functions/resolveCollisions';
 
 function GraphRenderer() {
-  const { nodes, edges, onNodesChange, onEdgesChange, setNodes, setEdges } = useGraphDataContext();
+  const { nodes, edges, onNodesChange, onEdgesChange, setEdges, setNodes } = useGraphDataContext();
+  const copyOutputMaterialToInput = useCopyOutputMaterialToInput();
+  const { divWrapperRef } = useClientViewHandlerContext();
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge({ ...params }, eds)),
-    [],
+    (params: Connection) => {
+      setEdges((eds) => addEdge({ ...params }, eds))
+
+      const { source, sourceHandle, target, targetHandle } = params
+      copyOutputMaterialToInput(source, sourceHandle!, target, targetHandle!);
+    }, [],
   );
+  
+  /**
+   * To handle node collisions
+   */
+  const onNodeDragStop = useCallback(() => {
+    setNodes((nds) => {
+      const resolvedNodes = resolveCollisions(nds, {
+        maxIterations: Infinity,
+        overlapThreshold: 0.5,
+        margin: 15,
+      });
+
+      return resolvedNodes as unknown as typeof nds;
+    });
+  }, [setNodes]);
 
   return (
     <>
@@ -22,7 +44,7 @@ function GraphRenderer() {
         <LeftSideViewManager />
       </div>
       <div className="w-screen h-screen  flex flex-row">
-        <div className="w-full bg-white">
+        <div className="w-full bg-white" ref={divWrapperRef}>
           <ReactFlow
             nodes={nodes}
             edges={edges}
@@ -33,6 +55,7 @@ function GraphRenderer() {
             snapToGrid={true}
             minZoom={0.1}
             maxZoom={5}
+            onNodeDragStop={onNodeDragStop}
 
             defaultEdgeOptions={{
               animated: true,
@@ -41,7 +64,7 @@ function GraphRenderer() {
             }}
           >
             <Background gap={20} />
-            <Controls position='bottom-right'/>
+            <Controls position='bottom-right' />
           </ReactFlow>
         </div>
       </div>

@@ -4,6 +4,9 @@ import { SpriteIcon } from "../machine_node_components/SpriteIcon";
 import { useMaterialSuggesterData } from "../../contexts/MaterialSuggesterDataContext";
 import { ClientViewTypes, useClientViewHandlerContext } from "../../contexts/ClientViewHandlerContext";
 import { useGraphDataContext } from "../../contexts/GraphDataContext";
+import { useModifyNodeInputOutput } from "../../functions/modifyNodeInputOutput";
+import { useUpdateMaterialFromConnectedIOs } from "../../functions/updateMaterialFromConnectedIOs";
+import { MinecraftText } from "../../functions/minecraftColorCodeApplier";
 
 /**
  * When rendered, it will display a search box where you can type the item/fluid you want
@@ -14,18 +17,24 @@ export function MaterialSuggester() {
     // Provider access
     const { setCurrentViewType } = useClientViewHandlerContext();
     const { imageToNamePairsData } = useAssetDataContext();
-    const { setNodes } = useGraphDataContext();
-    const { handledNodeId, materialName, amount, consumeChance, inputOrOutput, ingredientID } = useMaterialSuggesterData();
-    // Pointer access for div portal
+    const { handledNodeId, materialName, materialImageFile, amount, consumeChance, inputOrOutput, ingredientID } = useMaterialSuggesterData();
 
-    // useStates
+    // input tags from the MaterialSuggester component
     const [searchEntry, setSearchEntry] = useState(materialName.current);
     const [amountEntry, setAmountEntry] = useState(amount.current);
     const [consumeChanceEntry, setConsumeChanceEntry] = useState(consumeChance.current);
 
-    useEffect(()=>{
+    // imported functions with inbuilt useContext logic
+    const modifyNodeInputOutput = useModifyNodeInputOutput();
+    const updateMaterialFromConnectedIOs = useUpdateMaterialFromConnectedIOs();
+
+    useEffect(() => {
         setSearchEntry(materialName.current);
-    },[materialName.current]);
+    }, [materialName.current]);
+
+    useEffect(() => {
+        modifyNodeInputOutput(handledNodeId.current, materialName.current, materialImageFile.current, inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
+    }, [amountEntry, consumeChanceEntry])
 
     /**
      * By utilizing the context provider, it grabs details from the img_to_name_pairs.json file for ingame name suggestions.
@@ -43,30 +52,6 @@ export function MaterialSuggester() {
             .slice(0, 10);
     }, [searchEntry]);
 
-    function modifyNode(target_node_id: string, item_name: string, item_file_name: string) {
-        setNodes((nodes) => nodes.map((node) => {
-            if (node.id !== target_node_id) {
-                return node;
-            }
-
-            if (inputOrOutput.current === "input") {
-                return {
-                    ...node, data: {
-                        ...node.data,
-                        inputs: node.data.inputs.map((input) => input.id === ingredientID.current ? { ...input, name: item_name, img_filename: item_file_name, amount: amountEntry, consume_chance: consumeChanceEntry } : input)
-                    }
-                }
-            } else {
-                return {
-                    ...node, data: {
-                        ...node.data,
-                        outputs: node.data.outputs.map((output) => output.id === ingredientID.current ? { ...output, name: item_name, img_filename: item_file_name, amount: amountEntry, consume_chance: consumeChanceEntry } : output)
-                    }
-                }
-            }
-            
-        }));
-    }
 
     // generates the selector div
     return <div className="w-90 bg-gray-700 h-screen flex justify-start items-center flex-col nodrag nopan border-2 shadow-2xl font-[Minecraft]">
@@ -81,9 +66,9 @@ export function MaterialSuggester() {
             onChange={(e) => { setSearchEntry(e.target.value) }}
         />
         <div className="mb-2 w-3/4 flex flex-row justify-between">
-            <input className="w-1/2 h-10 bg-white p-2" placeholder="Amount" value={amountEntry} onChange={(e)=>{setAmountEntry(e.target.value)}} />
+            <input className="w-1/2 h-10 bg-white p-2" placeholder="Amount" value={amountEntry} onChange={(e) => { setAmountEntry(e.target.value) }} />
             <div className="w-2"></div>
-            <input className="w-1/2 h-10 bg-white p-2" placeholder="Consume %" value={consumeChanceEntry} onChange={(e)=>{setConsumeChanceEntry(e.target.value)}} />
+            <input className="w-1/2 h-10 bg-white p-2" placeholder="Consume %" value={consumeChanceEntry} onChange={(e) => { setConsumeChanceEntry(e.target.value) }} />
         </div>
         <div className="text-center bg-white mb-5 w-3/4">
             {suggestions?.map((item, index) => {
@@ -92,13 +77,14 @@ export function MaterialSuggester() {
                     onMouseDown={(e) => { e.preventDefault() }}
                     onClick={() => {
                         setCurrentViewType(ClientViewTypes.Default);
-                        modifyNode(handledNodeId.current, item["1"], item["0"])
+                        modifyNodeInputOutput(handledNodeId.current, item["1"], item["0"], inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
+                        updateMaterialFromConnectedIOs(handledNodeId.current, ingredientID.current);
                         handledNodeId.current = "";
                     }}
                 >
                     <div className="pr-1 pl-1"><SpriteIcon id={item["0"]} /></div>
                     <div className="w-full bg-gray-300 pt-1 hover:bg-gray-400 active:bg-gray-500">
-                        {item["1"]}
+                        <MinecraftText text={item["1"]} />
                     </div>
                 </div>
             })}

@@ -6,18 +6,21 @@ import { GraphDataContextProvider } from './contexts/GraphDataContext.tsx'
 import { AssetDataContextProvider } from './contexts/AssetDataContext.tsx'
 import { MaterialSuggesterDataProvider } from './contexts/MaterialSuggesterDataContext.tsx'
 import { ClientViewHandlerContextProvider } from './contexts/ClientViewHandlerContext.tsx'
+import { ReactFlowProvider } from '@xyflow/react'
 
 createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
     <ClientViewHandlerContextProvider>
-    <MaterialSuggesterDataProvider>
-      <AssetDataContextProvider>
+      <ReactFlowProvider>
         <GraphDataContextProvider>
-          <GraphRenderer />
+          <MaterialSuggesterDataProvider>
+            <AssetDataContextProvider>
+              <GraphRenderer />
+            </AssetDataContextProvider>
+          </MaterialSuggesterDataProvider>
         </GraphDataContextProvider>
-      </AssetDataContextProvider>
-    </MaterialSuggesterDataProvider>
+      </ReactFlowProvider>
     </ClientViewHandlerContextProvider>
   </StrictMode>,
 )

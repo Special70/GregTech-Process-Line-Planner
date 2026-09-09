@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
 /**
  * Enums for Client View Types
@@ -12,16 +12,22 @@ export type ClientViewType = typeof ClientViewTypes[keyof typeof ClientViewTypes
 type ClientViewHandlerContextType = {
     currentViewType: ClientViewType;
     setCurrentViewType: (viewType: ClientViewType) => void;
+    divWrapperRef: React.RefObject<any>
 };
 
 const ClientViewHandlerContext = createContext<ClientViewHandlerContextType | undefined>(undefined);
 
 export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [clientViewType, setClientViewType] = useState<ClientViewType>(ClientViewTypes.Default);
+      /**
+       * addSource/addMachine needs a reference of the div wrapping the ReactFlow component
+       * in order to spawn new nodes at the user's center viewport.
+       */
+      const divWrapperRef = useRef<HTMLDivElement | any>(undefined);
 
     return (
         <ClientViewHandlerContext.Provider
-            value={{ currentViewType: clientViewType, setCurrentViewType: setClientViewType }}>
+            value={{ currentViewType: clientViewType, setCurrentViewType: setClientViewType, divWrapperRef }}>
             {children}
         </ClientViewHandlerContext.Provider>
     )
