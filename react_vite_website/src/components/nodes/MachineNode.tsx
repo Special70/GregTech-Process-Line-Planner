@@ -39,7 +39,7 @@ function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
     }, [nodeProps.id, updateNodeInternals, nodeProps.data.inputs, nodeProps.data.outputs])
 
 
-    return <div className={`${isAccomplished ? "bg-green-400" : "bg-gray-300"} w-120 min-h-20 flex-1 border rounded-lg`} id={nodeProps.data.id}>
+    return <div className={`${isAccomplished ? "bg-green-200" : "bg-gray-300"} w-120 min-h-20 flex-1 border rounded-lg`} id={nodeProps.data.id}>
 
         <div className="w-full h-auto flex justify-center items-center flex-col font-[Minecraft]">
             <div className="grid grid-cols-[1fr_auto_1fr] items-center px-3 py-2 w-full">

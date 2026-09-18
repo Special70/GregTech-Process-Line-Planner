@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { ClientViewTypes, useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
+import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
 import { MaterialSuggesterDataProvider } from "../contexts/MaterialSuggesterDataContext";
 import { DefaultHomeView } from "./leftside_viewmanager/DefaultHomeView";
 import { MaterialSuggester } from "./leftside_viewmanager/MaterialSuggester";
+import { ClientViewTypes } from "../enums/ClientViewTypes";
 
 /**
  * Handles Display

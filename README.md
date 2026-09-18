@@ -1,32 +1,16 @@
-# React + TypeScript + Vite
+# GregTech Process Line Planner
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Created by Special70
 
-Currently, two official plugins are available:
+This project is made to help Star Technology Players plan out the machines and resources they need to start producing the resources they need. Normal GregTech runners can use this website since the only difference is that there are extra items from the Star Technology modpack.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+It was initialized due to a course project requirement where utilizing React Vite, Rest API and Database Access was required
 
-## React Compiler
+Tools Used:
+- `IconExporter Mod` : get the metadata and live icon of items with ease to make item displays in the material suggester possible
+- `Claude AI` : helped vibecode simple logic to scrape JEI recipe type names, converting 64x64 img files from IconExporter into atlas webp files and generationg json files to pair an item's ingame name, icon file name and their sheet + coordinate values. Also partially helped during development such as knowledge gaps but most of the important logic is done manually
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+&nbsp;  
+The repository has 2 folders that contains files that serves their respective jobs:
+- `react_vite_website` : contains the react website
+- `backend_service` : contains the backend code that will be used for backend service runners.

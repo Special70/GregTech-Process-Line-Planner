@@ -7,20 +7,26 @@ import { AssetDataContextProvider } from './contexts/AssetDataContext.tsx'
 import { MaterialSuggesterDataProvider } from './contexts/MaterialSuggesterDataContext.tsx'
 import { ClientViewHandlerContextProvider } from './contexts/ClientViewHandlerContext.tsx'
 import { ReactFlowProvider } from '@xyflow/react'
+import { BrowserRouter, Route, Routes } from 'react-router'
 
 createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
+    <BrowserRouter>
     <ClientViewHandlerContextProvider>
       <ReactFlowProvider>
         <GraphDataContextProvider>
           <MaterialSuggesterDataProvider>
             <AssetDataContextProvider>
-              <GraphRenderer />
+
+              <Routes>
+                <Route path="/" element={<GraphRenderer />} />
+              </Routes>
             </AssetDataContextProvider>
           </MaterialSuggesterDataProvider>
         </GraphDataContextProvider>
       </ReactFlowProvider>
     </ClientViewHandlerContextProvider>
+    </BrowserRouter>
   </StrictMode>,
 )

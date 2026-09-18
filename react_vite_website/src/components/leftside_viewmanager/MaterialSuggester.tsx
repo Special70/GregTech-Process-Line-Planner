@@ -2,11 +2,11 @@ import { useEffect, useMemo, useState } from "react";
 import { useAssetDataContext } from "../../contexts/AssetDataContext"
 import { SpriteIcon } from "../machine_node_components/SpriteIcon";
 import { useMaterialSuggesterData } from "../../contexts/MaterialSuggesterDataContext";
-import { ClientViewTypes, useClientViewHandlerContext } from "../../contexts/ClientViewHandlerContext";
-import { useGraphDataContext } from "../../contexts/GraphDataContext";
+import { useClientViewHandlerContext } from "../../contexts/ClientViewHandlerContext";
 import { useModifyNodeInputOutput } from "../../functions/modifyNodeInputOutput";
 import { useUpdateMaterialFromConnectedIOs } from "../../functions/updateMaterialFromConnectedIOs";
 import { MinecraftText } from "../../functions/minecraftColorCodeApplier";
+import { ClientViewTypes } from "../../enums/ClientViewTypes";
 
 /**
  * When rendered, it will display a search box where you can type the item/fluid you want
@@ -15,25 +15,25 @@ import { MinecraftText } from "../../functions/minecraftColorCodeApplier";
 export function MaterialSuggester() {
 
     // Provider access
-    const { setCurrentViewType } = useClientViewHandlerContext();
+    const { setCurrentViewType, resetToggleViewData } = useClientViewHandlerContext();
     const { imageToNamePairsData } = useAssetDataContext();
     const { handledNodeId, materialName, materialImageFile, amount, consumeChance, inputOrOutput, ingredientID } = useMaterialSuggesterData();
 
     // input tags from the MaterialSuggester component
-    const [searchEntry, setSearchEntry] = useState(materialName.current);
-    const [amountEntry, setAmountEntry] = useState(amount.current);
-    const [consumeChanceEntry, setConsumeChanceEntry] = useState(consumeChance.current);
+    const [searchEntry, setSearchEntry] = useState(materialName);
+    const [amountEntry, setAmountEntry] = useState(amount);
+    const [consumeChanceEntry, setConsumeChanceEntry] = useState(consumeChance);
 
     // imported functions with inbuilt useContext logic
     const modifyNodeInputOutput = useModifyNodeInputOutput();
     const updateMaterialFromConnectedIOs = useUpdateMaterialFromConnectedIOs();
 
     useEffect(() => {
-        setSearchEntry(materialName.current);
-    }, [materialName.current]);
+        setSearchEntry(materialName);
+    }, [materialName]);
 
     useEffect(() => {
-        modifyNodeInputOutput(handledNodeId.current, materialName.current, materialImageFile.current, inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
+        modifyNodeInputOutput(handledNodeId, materialName, materialImageFile, inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
     }, [amountEntry, consumeChanceEntry])
 
     /**
@@ -52,12 +52,11 @@ export function MaterialSuggester() {
             .slice(0, 10);
     }, [searchEntry]);
 
-
     // generates the selector div
     return <div className="w-90 bg-gray-700 h-screen flex justify-start items-center flex-col nodrag nopan border-2 shadow-2xl font-[Minecraft]">
         <div className="mt-5 bg-red-800 text-white w-3/4 text-center border-2 border-black hover:bg-red-900 active:bg-red-950" onClick={() => {
             setCurrentViewType(ClientViewTypes.Default);
-            handledNodeId.current = "";
+            resetToggleViewData();
         }}>
             Close
         </div>
@@ -77,9 +76,9 @@ export function MaterialSuggester() {
                     onMouseDown={(e) => { e.preventDefault() }}
                     onClick={() => {
                         setCurrentViewType(ClientViewTypes.Default);
-                        modifyNodeInputOutput(handledNodeId.current, item["1"], item["0"], inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
-                        updateMaterialFromConnectedIOs(handledNodeId.current, ingredientID.current);
-                        handledNodeId.current = "";
+                        resetToggleViewData();
+                        modifyNodeInputOutput(handledNodeId, item["1"], item["0"], inputOrOutput, ingredientID, amountEntry, consumeChanceEntry)
+                        updateMaterialFromConnectedIOs(handledNodeId, ingredientID);
                     }}
                 >
                     <div className="pr-1 pl-1"><SpriteIcon id={item["0"]} /></div>

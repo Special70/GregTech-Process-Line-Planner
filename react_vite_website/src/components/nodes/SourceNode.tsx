@@ -6,13 +6,15 @@ import { SpriteIcon } from '../machine_node_components/SpriteIcon';
 import { useDeleteNodeAndEdges } from '../../functions/deleteNodeAndEdges';
 import { useMaterialSuggesterData } from '../../contexts/MaterialSuggesterDataContext';
 import { MinecraftText } from '../../functions/minecraftColorCodeApplier';
+import { useClientViewHandlerContext } from '../../contexts/ClientViewHandlerContext';
 
 function SourceNode(nodeProps: NodeProps<GraphNodeType>) {
 
     const deleteNodeAndEdges = useDeleteNodeAndEdges();
     const updateNodeInternals = useUpdateNodeInternals();
 
-    const { toggleView, submitDataDetails } = useMaterialSuggesterData();
+    const { submitDataDetails } = useMaterialSuggesterData();
+    const { toggleViewForMaterialSuggester } = useClientViewHandlerContext();
 
     const [selectedMaterialFile, setSelectedMaterialFile] = useState<string>(nodeProps.data.outputs[0].img_filename);
 
@@ -67,8 +69,8 @@ function SourceNode(nodeProps: NodeProps<GraphNodeType>) {
 
             <div className="relative inline-block group">
                 <button className="w-auto h-auto bg-white border-2 mb-1 nodrag" onClick={() => {
-                    submitDataDetails("output", nodeProps.data.outputs[0].id, nodeProps.data.outputs[0].name, nodeProps.data.outputs[0].img_filename, nodeProps.data.outputs[0].amount, "");
-                    toggleView(nodeProps.id);
+                    toggleViewForMaterialSuggester(nodeProps.data.outputs[0].id);
+                    submitDataDetails(nodeProps.id, "output", nodeProps.data.outputs[0].id, nodeProps.data.outputs[0].name, nodeProps.data.outputs[0].img_filename, nodeProps.data.outputs[0].amount, "");
                 }}><SpriteIcon id={selectedMaterialFile} /></button>
                 {nodeProps.data.outputs[0].name.length > 0 && <div className="absolute top-full left-full mt-2 ml-2
             opacity-0 scale-95 pointer-events-none
