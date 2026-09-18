@@ -8,6 +8,7 @@ import { MaterialSuggesterDataProvider } from './contexts/MaterialSuggesterDataC
 import { ClientViewHandlerContextProvider } from './contexts/ClientViewHandlerContext.tsx'
 import { ReactFlowProvider } from '@xyflow/react'
 import { BrowserRouter, Route, Routes } from 'react-router'
+import PublishedGraphsBrowser from './PublishedGraphsBrowser.tsx'
 
 createRoot(document.getElementById('root')!).render(
 
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')!).render(
 
               <Routes>
                 <Route path="/" element={<GraphRenderer />} />
+                <Route path="/published-graphs" element={<PublishedGraphsBrowser/>}/>
               </Routes>
             </AssetDataContextProvider>
           </MaterialSuggesterDataProvider>

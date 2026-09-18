@@ -43,10 +43,6 @@ function GraphRenderer() {
       <div className="shadow-2xl absolute z-100">
         <LeftSideViewManager />
       </div>
-      <div className='absolute min-w-25 min-h-10 flex p-2 top-0 right-0 opacity-50 bg-gray-300 z-200 text-black font-bold text-center'>
-        Not Logged In. Click to login via Gmail<br/>
-        to publish graphs publicly
-      </div>
       <div className="w-screen h-screen  flex flex-row">
         <div className="w-full bg-white" ref={divWrapperRef}>
           <ReactFlow
