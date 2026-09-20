@@ -7,8 +7,7 @@ import { AssetDataContextProvider } from './contexts/AssetDataContext.tsx'
 import { MaterialSuggesterDataProvider } from './contexts/MaterialSuggesterDataContext.tsx'
 import { ClientViewHandlerContextProvider } from './contexts/ClientViewHandlerContext.tsx'
 import { ReactFlowProvider } from '@xyflow/react'
-import { BrowserRouter, Route, Routes } from 'react-router'
-import PublishedGraphsBrowser from './PublishedGraphsBrowser.tsx'
+import { BrowserRouter} from 'react-router'
 
 createRoot(document.getElementById('root')!).render(
 
