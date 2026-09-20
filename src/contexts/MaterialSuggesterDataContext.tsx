@@ -2,7 +2,7 @@
  * Used by source and machine nodes to send information to the Material Suggester sideview
  */
 
-import { createContext, useContext, useRef, useState } from 'react';
+import { createContext, useContext, useState } from 'react';
 
 export type MaterialSuggesterDataProps = {
     submitDataDetails: (nodeId: string, type: string, node_ingredient_id: string, material_name: string, materialImageFile: string, amount: string, consumeChance: string) => void

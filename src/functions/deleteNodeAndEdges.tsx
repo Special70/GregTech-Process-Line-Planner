@@ -1,4 +1,4 @@
-import { useGraphDataContext, type GraphDataNode } from "../contexts/GraphDataContext";
+import { useGraphDataContext } from "../contexts/GraphDataContext";
 
 /**
  * Deletes nodes and its node connections based on node id

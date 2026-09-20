@@ -1,4 +1,4 @@
-import { useGraphDataContext, type GraphDataNode } from "../contexts/GraphDataContext";
+import { useGraphDataContext } from "../contexts/GraphDataContext";
 
 export function useCopyOutputMaterialToInput() {
     const { setNodes } = useGraphDataContext();

@@ -3,7 +3,7 @@ import { ReactFlow, Background, Controls, addEdge, type Connection } from '@xyfl
 import '@xyflow/react/dist/style.css';
 import { useGraphDataContext } from './contexts/GraphDataContext';
 import { nodeTypes } from './assets/types/NodeTypes';
-import { useCallback, useRef } from 'react';
+import { useCallback } from 'react';
 import { LeftSideViewManager } from './components/LeftSideViewManager';
 import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToInput';
 import { useClientViewHandlerContext } from './contexts/ClientViewHandlerContext';

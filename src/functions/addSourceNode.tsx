@@ -1,7 +1,6 @@
 import { useReactFlow } from "@xyflow/react";
 import { useGraphDataContext, type GraphDataNode } from "../contexts/GraphDataContext";
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
-import { resolveCollisions } from "./resolveCollisions";
 
 export function useAddSourceNode()  {
     const { setNodes } = useGraphDataContext();

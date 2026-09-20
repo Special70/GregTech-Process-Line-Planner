@@ -1,5 +1,4 @@
-import { getConnectedEdges, useEdges, useNodes } from "@xyflow/react";
-import { useGraphDataContext } from "../contexts/GraphDataContext";
+import { useEdges } from "@xyflow/react";
 import { useCopyOutputMaterialToInput } from "./copyOutputMaterialToInput";
 
 export function useUpdateMaterialFromConnectedIOs() {

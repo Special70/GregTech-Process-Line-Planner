@@ -1,6 +1,5 @@
-import { useState } from "react";
+
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
-import { MaterialSuggesterDataProvider } from "../contexts/MaterialSuggesterDataContext";
 import { DefaultHomeView } from "./leftside_viewmanager/DefaultHomeView";
 import { MaterialSuggester } from "./leftside_viewmanager/MaterialSuggester";
 import { ClientViewTypes } from "../enums/ClientViewTypes";
@@ -17,6 +16,8 @@ export function LeftSideViewManager() {
             return <DefaultHomeView />
         case ClientViewTypes.MaterialSuggester:
             return <MaterialSuggester />
+        case ClientViewTypes.UsedMachinesList:
+            return <div/>
 
     }
 }

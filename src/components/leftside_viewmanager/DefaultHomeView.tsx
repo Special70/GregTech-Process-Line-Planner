@@ -23,19 +23,6 @@ export function DefaultHomeView() {
         <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900" onClick={addMachineNode}>
             Create New Machine Node
         </div>
-        <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900">
-            Import/Export Graphs
-        </div>
-        <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900">
-            Get Used Machines List
-        </div>
-        <div className="text-1xl p-3 bg-green-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-green-800 active:bg-green-900">
-            Publish Graph
-            
-        </div>
-        <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900">
-            View Published Graphs
-        </div>
     </div>
     )
 }
