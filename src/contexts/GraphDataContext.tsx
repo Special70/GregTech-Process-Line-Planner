@@ -14,7 +14,7 @@ export type GraphDataNode = Node<NodeData>;
 
 // Needs to be empty upon final release
 const initialNodes: GraphDataNode[] = [];
-const initialEdges: Edge[] = [];
+const initialEdges: Edge[] = []; 
 
 interface FlowContextType {
     nodes: GraphDataNode[];
