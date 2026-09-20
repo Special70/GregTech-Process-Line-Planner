@@ -14,21 +14,17 @@ createRoot(document.getElementById('root')!).render(
 
   <StrictMode>
     <BrowserRouter>
-    <ClientViewHandlerContextProvider>
-      <ReactFlowProvider>
-        <GraphDataContextProvider>
-          <MaterialSuggesterDataProvider>
-            <AssetDataContextProvider>
-
-              <Routes>
-                <Route path="/" element={<GraphRenderer />} />
-                <Route path="/published-graphs" element={<PublishedGraphsBrowser/>}/>
-              </Routes>
-            </AssetDataContextProvider>
-          </MaterialSuggesterDataProvider>
-        </GraphDataContextProvider>
-      </ReactFlowProvider>
-    </ClientViewHandlerContextProvider>
+      <ClientViewHandlerContextProvider>
+        <ReactFlowProvider>
+          <GraphDataContextProvider>
+            <MaterialSuggesterDataProvider>
+              <AssetDataContextProvider>
+                <GraphRenderer />
+              </AssetDataContextProvider>
+            </MaterialSuggesterDataProvider>
+          </GraphDataContextProvider>
+        </ReactFlowProvider>
+      </ClientViewHandlerContextProvider>
     </BrowserRouter>
   </StrictMode>,
 )
