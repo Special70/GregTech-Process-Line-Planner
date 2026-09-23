@@ -24,9 +24,9 @@ export const AssetDataContextProvider: React.FC<{ children: React.ReactNode }> =
     const [imageToNamePairsData, setImageToNamePairsData] = useState<NamePair[] | null>(null);
 
     useEffect(()=>{
-        fetch(`${import.meta.env.BASE_URL}assets/data/atlas.json`).then(res => res.json()).then(data => setAtlasData(data));
-        fetch(`${import.meta.env.BASE_URL}assets/data/emi_categories.json`).then(res => res.json()).then(data => setEMICategoriesData(data));
-        fetch(`${import.meta.env.BASE_URL}assets/data/img_to_name_pairs.json`).then(res => res.json()).then(data => setImageToNamePairsData(data));
+        fetch('/assets/data/atlas.json').then(res => res.json()).then(data => setAtlasData(data));
+        fetch('/assets/data/emi_categories.json').then(res => res.json()).then(data => setEMICategoriesData(data));
+        fetch('/assets/data/img_to_name_pairs.json').then(res => res.json()).then(data => setImageToNamePairsData(data));
     }, [])
 
     return (

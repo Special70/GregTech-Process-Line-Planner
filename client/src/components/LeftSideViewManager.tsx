@@ -1,4 +1,3 @@
-
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
 import { DefaultHomeView } from "./leftside_viewmanager/DefaultHomeView";
 import { MaterialSuggester } from "./leftside_viewmanager/MaterialSuggester";
@@ -16,8 +15,6 @@ export function LeftSideViewManager() {
             return <DefaultHomeView />
         case ClientViewTypes.MaterialSuggester:
             return <MaterialSuggester />
-        case ClientViewTypes.UsedMachinesList:
-            return <div/>
 
     }
 }
