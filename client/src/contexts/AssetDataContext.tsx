@@ -22,16 +22,23 @@ export const AssetDataContextProvider: React.FC<{ children: React.ReactNode }> =
     const [atlasData, setAtlasData] = useState<AtlasManifest | null>(null);
     const [emiCategoriesData, setEMICategoriesData] = useState<string[] | null>(null);
     const [imageToNamePairsData, setImageToNamePairsData] = useState<NamePair[] | null>(null);
+    useEffect(() => {
+        fetch(`${import.meta.env.BASE_URL}assets/data/atlas.json`)
+            .then(res => res.json())
+            .then(data => setAtlasData(data));
 
-    useEffect(()=>{
-        fetch(`${import.meta.env.BASE_URL}assets/data/atlas.json`).then(res => res.json()).then(data => setAtlasData(data));
-        fetch(`${import.meta.env.BASE_URL}assets/data/emi_categories.json`).then(res => res.json()).then(data => setEMICategoriesData(data));
-        fetch(`${import.meta.env.BASE_URL}assets/data/img_to_name_pairs.json`).then(res => res.json()).then(data => setImageToNamePairsData(data));
-    }, [])
+        fetch(`${import.meta.env.BASE_URL}assets/data/emi_categories.json`)
+            .then(res => res.json())
+            .then(data => setEMICategoriesData(data));
+
+        fetch(`${import.meta.env.BASE_URL}assets/data/img_to_name_pairs.json`)
+            .then(res => res.json())
+            .then(data => setImageToNamePairsData(data));
+    }, []);
 
     return (
         <AssetDataContext.Provider
-            value={{ atlasData, emiCategoriesData, imageToNamePairsData}}>
+            value={{ atlasData, emiCategoriesData, imageToNamePairsData }}>
             {children}
         </AssetDataContext.Provider>
     )

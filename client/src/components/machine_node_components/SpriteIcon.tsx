@@ -18,7 +18,7 @@ export function SpriteIcon({ id, size = 64 }: SpriteIconProps) {
             style={{
                 width: size,
                 height: size,
-                backgroundImage: `url(/assets/atlas_images/sheet_${entry.sheet}.webp)`,
+                backgroundImage: `url(${import.meta.env.BASE_URL}assets/atlas_images/sheet_${entry.sheet}.webp)`,
                 backgroundPosition: `-${entry.x}px -${entry.y}px`,
                 backgroundRepeat: 'no-repeat',
                 imageRendering: 'pixelated',

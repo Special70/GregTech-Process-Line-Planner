@@ -1,9 +1,17 @@
+import { useNavigate } from "react-router";
 
 
 const PublishedGraphsBrowser = () => {
+
+    let navigate = useNavigate();
+
     return (
         <>
-            <div className="font-[Minecraft] text-white text-2xl bg-red-500 absolute left-0 bottom-0 mb-2 ml-2 h-15 w-40 flex items-center justify-center border-2 border-white shadow-2xl hover:bg-red-600 active:bg-red-700">
+            <div className="font-[Minecraft] text-white text-2xl bg-red-500 absolute left-0 bottom-0 mb-2 ml-2 h-15 w-40 flex items-center justify-center border-2 border-white shadow-2xl hover:bg-red-600 active:bg-red-700"
+            onClick={()=>{
+                navigate("/")
+            }}
+            >
                 Back
             </div>
             <div className="w-screen h-screen bg-linear-to-r from-gray-700 to-gray-900">

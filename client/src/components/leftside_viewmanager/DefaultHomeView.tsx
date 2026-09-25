@@ -1,6 +1,7 @@
 import { useAddMachineNode } from '../../functions/addMachineNode';
 import { useAddSourceNode } from '../../functions/addSourceNode';
 import gregtech_icon from '../../assets/images/startechnology.png'
+import { useNavigate } from 'react-router';
 
 
 /**
@@ -12,6 +13,9 @@ import gregtech_icon from '../../assets/images/startechnology.png'
 export function DefaultHomeView() {
     const addSourceNode = useAddSourceNode();
     const addMachineNode = useAddMachineNode();
+
+    let navigate = useNavigate();
+
     return (<div className="w-60 mr-auto h-screen bg-gray-500">
         <img src={gregtech_icon} className="w-1/2 m-auto p-3 " />
         <div className="text-2xl text-center p-3 font-[Minecraft]">
@@ -33,7 +37,11 @@ export function DefaultHomeView() {
             Publish Graph
             
         </div>
-        <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900">
+        <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900"
+        onClick={()=>{
+            navigate("/published-graphs")
+        }}
+        >
             View Published Graphs
         </div>
     </div>
