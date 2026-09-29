@@ -8,6 +8,7 @@ import { LeftSideViewManager } from './components/LeftSideViewManager';
 import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToInput';
 import { useClientViewHandlerContext } from './contexts/ClientViewHandlerContext';
 import { resolveCollisions } from './functions/resolveCollisions';
+import UsedMachinesListDisplay from './components/UsedMachinesListDisplay';
 
 function GraphRenderer() {
   const { nodes, edges, onNodesChange, onEdgesChange, setEdges, setNodes } = useGraphDataContext();
@@ -40,6 +41,7 @@ function GraphRenderer() {
 
   return (
     <>
+      <UsedMachinesListDisplay />
       <div className="shadow-2xl absolute z-100">
         <LeftSideViewManager />
       </div>

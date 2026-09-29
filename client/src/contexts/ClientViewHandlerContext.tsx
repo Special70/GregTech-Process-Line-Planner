@@ -16,6 +16,14 @@ type ClientViewHandlerContextType = {
      */
     divWrapperRef: React.RefObject<any>
     /**
+     * boolean value that decides the visibility of the window that lists down all of the machines involved
+     */
+    showUsedMachines: boolean
+    /**
+     * Setter for showUsedMachines
+     */
+    setShowUsedMachines: React.Dispatch<React.SetStateAction<boolean>>
+    /**
      * Shared useState setter for other logic to manage
      * @param viewType 
      * @returns 
@@ -38,6 +46,7 @@ const ClientViewHandlerContext = createContext<ClientViewHandlerContextType | un
 
 export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [clientViewType, setClientViewType] = useState<ClientViewType>(ClientViewTypes.Default);
+    const [showUsedMachines, setShowUsedMachines] = useState<boolean>(false);
     /**
      * addSource/addMachine needs a reference of the div wrapping the ReactFlow component
      * in order to spawn new nodes at the user's center viewport.
@@ -79,7 +88,9 @@ export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactN
                 divWrapperRef: divWrapperRef,
                 setCurrentViewType: setClientViewType,
                 toggleViewForMaterialSuggester: toggleViewForMaterialSuggester,
-                resetToggleViewData: resetToggleViewData
+                resetToggleViewData: resetToggleViewData,
+                showUsedMachines: showUsedMachines,
+                setShowUsedMachines: setShowUsedMachines
                 }}>
             {children}
         </ClientViewHandlerContext.Provider>
