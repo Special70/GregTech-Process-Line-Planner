@@ -20,15 +20,31 @@ type ClientViewHandlerContextType = {
      */
     showUsedMachines: boolean
     /**
+     * boolean value that decides the visibility of the window that helps import/export graphs
+     */
+    showImportExportMenu: boolean
+    /**
+     * boolean value that decides the visibility of the window that helps the user to publish their graphs
+     */
+    showPublishGraphMenu: boolean
+    /**
      * Setter for showUsedMachines
      */
     setShowUsedMachines: React.Dispatch<React.SetStateAction<boolean>>
+    /**
+     * Setter for showImportExportMenu
+     */
+    setShowImportExportMenu: React.Dispatch<React.SetStateAction<boolean>>
+    /**
+     * Setter fir showPublishGraphMenu
+     */
+    setShowPublishGraphMenu: React.Dispatch<React.SetStateAction<boolean>>
     /**
      * Shared useState setter for other logic to manage
      * @param viewType 
      * @returns 
      */
-    setCurrentViewType: (viewType: ClientViewType) => void
+    setCurrentViewType: React.Dispatch<React.SetStateAction<ClientViewType>>
     /**
      * Shared function for toggling the appearance of MaterialSuggester
      * @param ingredientID 
@@ -47,6 +63,8 @@ const ClientViewHandlerContext = createContext<ClientViewHandlerContextType | un
 export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [clientViewType, setClientViewType] = useState<ClientViewType>(ClientViewTypes.Default);
     const [showUsedMachines, setShowUsedMachines] = useState<boolean>(false);
+    const [showImportExportMenu, setShowImportExportMenu] = useState<boolean>(false);
+    const [showPublishGraphMenu, setShowPublishGraphMenu] = useState<boolean>(false);
     /**
      * addSource/addMachine needs a reference of the div wrapping the ReactFlow component
      * in order to spawn new nodes at the user's center viewport.
@@ -90,7 +108,11 @@ export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactN
                 toggleViewForMaterialSuggester: toggleViewForMaterialSuggester,
                 resetToggleViewData: resetToggleViewData,
                 showUsedMachines: showUsedMachines,
-                setShowUsedMachines: setShowUsedMachines
+                setShowUsedMachines: setShowUsedMachines,
+                showImportExportMenu: showImportExportMenu,
+                setShowImportExportMenu: setShowImportExportMenu,
+                showPublishGraphMenu: showPublishGraphMenu,
+                setShowPublishGraphMenu: setShowPublishGraphMenu
                 }}>
             {children}
         </ClientViewHandlerContext.Provider>

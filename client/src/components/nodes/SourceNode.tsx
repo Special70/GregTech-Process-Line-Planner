@@ -84,7 +84,7 @@ function SourceNode(nodeProps: NodeProps<GraphNodeType>) {
                 </div>}
             </div>
 
-            <button className="bg-red-500 mb-2 pl-2 pr-2 hover:bg-red-600 active:bg-red-700" onClick={() => { deleteNodeAndEdges(nodeProps.id) }}>
+            <button className="bg-red-500 mb-2 pl-2 pr-2 hover:bg-red-600 active:bg-red-700 nodrag" onClick={() => { deleteNodeAndEdges(nodeProps.id) }}>
                 Delete Source
             </button>
         </div>

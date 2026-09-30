@@ -1,13 +1,15 @@
 import { useAssetDataContext } from "../../contexts/AssetDataContext"
+import { useSetMachineName } from "../../functions/setMachineName"
 
 type MachineNodeSuggesterProps = {
     inputTag: React.RefObject<HTMLInputElement>
     nodeId: string
-    setName: React.Dispatch<React.SetStateAction<string>>
+    setComponentName: React.Dispatch<React.SetStateAction<string>>
 }
 
 export function MachineNodeSuggester(props: MachineNodeSuggesterProps) {
     let { emiCategoriesData } = useAssetDataContext();
+    const setMachineName = useSetMachineName();
     let suggestionResult = emiCategoriesData?.filter(item => item.toLowerCase().includes(props.inputTag.current.value.toLowerCase())).sort().slice(0, 10);
 
     return (
@@ -18,7 +20,8 @@ export function MachineNodeSuggester(props: MachineNodeSuggesterProps) {
                     className="border-b-2 w-full hover:bg-gray-500 active:bg-gray-600"
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => { 
-                        props.setName(item);
+                        props.setComponentName(item);
+                        setMachineName(props.nodeId, item);
                         props.inputTag.current.blur();
                      }}
                 >

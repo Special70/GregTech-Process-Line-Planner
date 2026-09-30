@@ -9,11 +9,13 @@ import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToIn
 import { useClientViewHandlerContext } from './contexts/ClientViewHandlerContext';
 import { resolveCollisions } from './functions/resolveCollisions';
 import UsedMachinesListDisplay from './components/UsedMachinesListDisplay';
+import ImportExportDisplay from './components/ImportExportDisplay';
+import PublishGraphMenu from './components/PublishGraphMenu';
 
 function GraphRenderer() {
   const { nodes, edges, onNodesChange, onEdgesChange, setEdges, setNodes } = useGraphDataContext();
   const copyOutputMaterialToInput = useCopyOutputMaterialToInput();
-  const { divWrapperRef } = useClientViewHandlerContext();
+  const { divWrapperRef, showUsedMachines, showImportExportMenu, showPublishGraphMenu } = useClientViewHandlerContext();
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -41,7 +43,9 @@ function GraphRenderer() {
 
   return (
     <>
-      <UsedMachinesListDisplay />
+      {showUsedMachines ? <UsedMachinesListDisplay /> : <></>}
+      {showImportExportMenu ? <ImportExportDisplay /> : <></>}
+      {showPublishGraphMenu ? <PublishGraphMenu /> : <></>}
       <div className="shadow-2xl absolute z-100">
         <LeftSideViewManager />
       </div>
