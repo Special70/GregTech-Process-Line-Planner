@@ -2,7 +2,6 @@ import { useReactFlow } from "@xyflow/react";
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
 import { useRef } from "react";
 import { publishGraph } from "../functions/api/publishGraph";
-import type { GraphToPublish } from "../types/DataTypes";
 import { useHandleGraphExport_returnString } from "../functions/handleGraphExport";
 
 const PublishGraphMenu = () => {
