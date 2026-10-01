@@ -30,7 +30,7 @@ function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
     const outputListRef = useRef<HTMLDivElement | any>(null);
 
     const [isEditingMachineName, setIsEditingMachineName] = useState<boolean>(false);
-    const [machineNameOfComponent, setMachineNameOfComponent] = useState<string>("");
+    const [machineNameOfComponent, setMachineNameOfComponent] = useState<string>(nodeProps.data.name);
     const machineNameRef = useRef<HTMLInputElement | any>(null);
 
     const [isAccomplished, setIsAccomplished] = useState<boolean>(false);
@@ -62,7 +62,7 @@ function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
                     value={machineNameOfComponent}
                     onChange={(e) => { setMachineNameOfComponent(e.target.value); setMachineName(nodeProps.id,e.target.value) }}
                 />
-                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={nodeProps.data.id} setComponentName={setMachineNameOfComponent} />)}
+                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={nodeProps.id} setComponentName={setMachineNameOfComponent}/>)}
             </div>
 
 

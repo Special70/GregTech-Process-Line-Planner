@@ -19,11 +19,11 @@ export function MachineNodeSuggester(props: MachineNodeSuggesterProps) {
                     key={index}
                     className="border-b-2 w-full hover:bg-gray-500 active:bg-gray-600"
                     onMouseDown={(e) => e.preventDefault()}
-                    onClick={() => { 
+                    onClick={() => {
                         props.setComponentName(item);
-                        setMachineName(props.nodeId, item);
                         props.inputTag.current.blur();
-                     }}
+                        setMachineName(props.nodeId, item);
+                    }}
                 >
                     {item}
                 </button>

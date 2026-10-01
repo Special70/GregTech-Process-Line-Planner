@@ -36,18 +36,18 @@ const PublishedGraphsBrowser = () => {
                 </div>
                 <hr className="w-3/4 m-auto bg-black h-1 mb-5" />
                 <div className="w-7/8 h-150 m-auto grid grid-cols-2 grid-rows-3 gap-5">
-                    {publishedGraphs.map((item) => {
-                        return _generateClickableChoice(item);
+                    {publishedGraphs.map((item, index) => {
+                        return _generateClickableChoice(item, index);
                     })}
                 </div>
             </div>
         </>
     )
 
-    function _generateClickableChoice(publishedGraph: PublishedGraph) {
+    function _generateClickableChoice(publishedGraph: PublishedGraph, keyIdx: number) {
         return (
 
-            <div className="bg-yellow-100 w-full p-4 font-[Minecraft] relative">
+            <div className="bg-yellow-100 w-full p-4 font-[Minecraft] relative" key={keyIdx}>
                 <div className="text-2xl font-bold">
                     {publishedGraph.graph_name}
                 </div>

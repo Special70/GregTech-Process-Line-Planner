@@ -14,7 +14,7 @@ import { useClientViewHandlerContext } from '../../contexts/ClientViewHandlerCon
 export function DefaultHomeView() {
     const addSourceNode = useAddSourceNode();
     const addMachineNode = useAddMachineNode();
-    const { setShowUsedMachines, setShowImportExportMenu, setShowPublishGraphMenu } = useClientViewHandlerContext();
+    const { setShowUsedMachines, setShowImportExportMenu, setShowPublishGraphMenu, isBackendOnline } = useClientViewHandlerContext();
 
     let navigate = useNavigate();
 
@@ -40,21 +40,23 @@ export function DefaultHomeView() {
         }}>
             Get Used Machines List
         </div>
-        <div className="text-1xl p-3 bg-green-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-green-800 active:bg-green-900"
-        onClick={()=>{
-            setShowPublishGraphMenu(true);
-        }}
+        {isBackendOnline ? (<><div className="text-1xl p-3 bg-green-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-green-800 active:bg-green-900"
+            onClick={() => {
+                setShowPublishGraphMenu(true);
+            }}
         >
             Publish Graph
 
         </div>
-        <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900"
-            onClick={() => {
-                navigate("/published-graphs")
-            }}
-        >
-            View Published Graphs
-        </div>
+            <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900"
+                onClick={() => {
+                    navigate("/published-graphs")
+                }}
+            >
+                View Published Graphs
+            </div>
+        </>) : <></>}
+
     </div>
     )
 }
