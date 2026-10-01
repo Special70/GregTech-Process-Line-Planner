@@ -60,8 +60,3 @@ server                Backend Server
 ## 6. Screenshots
 
 ![](./preview-image-gt-plp.jpg)
-
-## 7. Known issues and next steps
-
-- You currently cannot open the graph browser for the button is still nonfunctional
-- MongoDB cluster data is still not connected to the graph browser
