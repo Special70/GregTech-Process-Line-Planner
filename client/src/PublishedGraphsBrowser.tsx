@@ -1,16 +1,32 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { getPublishedGraphs } from "./functions/api/getPublishedGraphs";
+import type { PublishedGraph } from "./types/DataTypes";
+import { useHandleGraphImport } from "./functions/handleGraphImport";
 
 
 const PublishedGraphsBrowser = () => {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const handleGraphImport = useHandleGraphImport()
+
+    const [publishedGraphs, setPublishedGraphs] = useState<PublishedGraph[]>([]);
+
+    useEffect(() => {
+        _getGraphsAndSave();
+    }, [])
+
+    // api fetch is async so when the data arrives, it has to be saved in a useState
+    async function _getGraphsAndSave() {
+        setPublishedGraphs(await getPublishedGraphs());
+    }
 
     return (
         <>
             <div className="font-[Minecraft] text-white text-2xl bg-red-500 absolute left-0 bottom-0 mb-2 ml-2 h-15 w-40 flex items-center justify-center border-2 border-white shadow-2xl hover:bg-red-600 active:bg-red-700"
-            onClick={()=>{
-                navigate("/")
-            }}
+                onClick={() => {
+                    navigate("/")
+                }}
             >
                 Back
             </div>
@@ -20,37 +36,38 @@ const PublishedGraphsBrowser = () => {
                 </div>
                 <hr className="w-3/4 m-auto bg-black h-1 mb-5" />
                 <div className="w-7/8 h-150 m-auto grid grid-cols-2 grid-rows-3 gap-5">
-
-                    <div className="bg-yellow-100 w-full p-4 font-[Minecraft] relative">
-                        <div className="text-2xl font-bold">
-                            Platline Process
-                        </div>
-                        <div className="text-1xl">
-                            Uses Crushed Pentaldite Ores as the base material for starting the Platline Process. Uses non-singular multiblocks. Either uses Large Chemical Reactor or 3x3 Perfect Overclock Machines to perform specific recipes
-                        </div>
-                        <div className="bg-green-700 border-2 border-white w-1/4 text-center p-2 bottom-0 absolute mb-2">
-                            Click to load
-                        </div>
-                    </div>
-                    {[1, 2, 3, 4].map(() => {
-                        return (
-                            <div className="bg-yellow-100 w-full p-4 font-[Minecraft] relative">
-                                <div className="text-2xl font-bold">
-                                    Card Title
-                                </div>
-                                <div className="text-1xl">
-                                    Card Description
-                                </div>
-                                <div className="bg-green-700 border-2 border-white w-1/4 text-center p-2 bottom-0 absolute mb-2">
-                                    Click to load
-                                </div>
-                            </div>
-                        )
+                    {publishedGraphs.map((item, index) => {
+                        return _generateClickableChoice(item, index);
                     })}
                 </div>
             </div>
         </>
     )
+
+    function _generateClickableChoice(publishedGraph: PublishedGraph, keyIdx: number) {
+        return (
+
+            <div className="bg-yellow-100 w-full p-4 font-[Minecraft] relative" key={keyIdx}>
+                <div className="text-2xl font-bold">
+                    {publishedGraph.graph_name}
+                </div>
+                <div className="text-1xl font-bold">
+                    By {publishedGraph.author}
+                </div>
+                <div className="text-sm overflow-y-auto bg-white h-15">
+                    By {publishedGraph.graph_description}
+                </div>
+                <div className="bg-green-700 border-2 border-white w-1/4 text-center p-2 bottom-0 absolute mb-2 hover:bg-green-800 active:bg-green-900"
+                    onClick={() => {
+                        handleGraphImport(publishedGraph.graph_string_data);
+                        navigate("/")
+                    }}
+                >
+                    Click to load
+                </div>
+            </div>
+        )
+    }
 }
 
 export default PublishedGraphsBrowser;

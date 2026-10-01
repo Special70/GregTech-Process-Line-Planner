@@ -1,7 +1,7 @@
 
 import type { NodeProps } from '@xyflow/react';
 import MachineNode from './nodes/MachineNode';
-import type { GraphNodeType } from '../assets/types/NodeTypes';
+import type { GraphNodeType } from '../types/NodeTypes';
 import SourceNode from './nodes/SourceNode';
 
 /**

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { OutputIngredientData } from "../../assets/types/DataTypes";
+import type { OutputIngredientData } from "../../types/DataTypes";
 import { useMaterialSuggesterData } from "../../contexts/MaterialSuggesterDataContext";
 import { SpriteIcon } from "./SpriteIcon";
 import { MinecraftText } from "../../functions/minecraftColorCodeApplier";

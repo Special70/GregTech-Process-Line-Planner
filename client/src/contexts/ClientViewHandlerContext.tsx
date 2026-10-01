@@ -1,5 +1,6 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { ClientViewTypes, type ClientViewType } from "../enums/ClientViewTypes";
+import { getStatusAPI } from "../functions/api/getStatusAPI";
 
 /**
  * This Context File is responsible for client view related management that happens in this website. So if you're looking for
@@ -16,11 +17,43 @@ type ClientViewHandlerContextType = {
      */
     divWrapperRef: React.RefObject<any>
     /**
+     * boolean value that decides the visibility of the window that lists down all of the machines involved
+     */
+    showUsedMachines: boolean
+    /**
+     * boolean value that decides the visibility of the window that helps import/export graphs
+     */
+    showImportExportMenu: boolean
+    /**
+     * boolean value that decides the visibility of the window that helps the user to publish their graphs
+     */
+    showPublishGraphMenu: boolean
+    /**
+     * boolean value that decides the visibility of the publish button and the published graphs page button
+     */
+    isBackendOnline: boolean
+    /**
+     * Setter for showUsedMachines
+     */
+    setShowUsedMachines: React.Dispatch<React.SetStateAction<boolean>>
+    /**
+     * Setter for showImportExportMenu
+     */
+    setShowImportExportMenu: React.Dispatch<React.SetStateAction<boolean>>
+    /**
+     * Setter for showPublishGraphMenu
+     */
+    setShowPublishGraphMenu: React.Dispatch<React.SetStateAction<boolean>>
+    /**
+     * Setter for isBackendOnline
+     */
+    setIsBackendOnline: React.Dispatch<React.SetStateAction<boolean>>
+    /**
      * Shared useState setter for other logic to manage
      * @param viewType 
      * @returns 
      */
-    setCurrentViewType: (viewType: ClientViewType) => void
+    setCurrentViewType: React.Dispatch<React.SetStateAction<ClientViewType>>
     /**
      * Shared function for toggling the appearance of MaterialSuggester
      * @param ingredientID 
@@ -38,11 +71,26 @@ const ClientViewHandlerContext = createContext<ClientViewHandlerContextType | un
 
 export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [clientViewType, setClientViewType] = useState<ClientViewType>(ClientViewTypes.Default);
+    const [showUsedMachines, setShowUsedMachines] = useState<boolean>(false);
+    const [showImportExportMenu, setShowImportExportMenu] = useState<boolean>(false);
+    const [showPublishGraphMenu, setShowPublishGraphMenu] = useState<boolean>(false);
+    const [isBackendOnline, setIsBackendOnline] = useState<boolean>(false);
     /**
      * addSource/addMachine needs a reference of the div wrapping the ReactFlow component
      * in order to spawn new nodes at the user's center viewport.
      */
     const divWrapperRef = useRef<HTMLDivElement | any>(undefined);
+
+    useEffect(()=>{
+        _attemptToPingBackend();
+    },[])
+
+    /**
+     * Async job that 
+     */
+    async function _attemptToPingBackend() {
+        setIsBackendOnline(await getStatusAPI());
+    }
 
 
     /**
@@ -74,13 +122,21 @@ export const ClientViewHandlerContextProvider: React.FC<{ children: React.ReactN
 
     return (
         <ClientViewHandlerContext.Provider
-            value={{ 
-                currentViewType: clientViewType, 
+            value={{
+                currentViewType: clientViewType,
                 divWrapperRef: divWrapperRef,
                 setCurrentViewType: setClientViewType,
                 toggleViewForMaterialSuggester: toggleViewForMaterialSuggester,
-                resetToggleViewData: resetToggleViewData
-                }}>
+                resetToggleViewData: resetToggleViewData,
+                showUsedMachines: showUsedMachines,
+                setShowUsedMachines: setShowUsedMachines,
+                showImportExportMenu: showImportExportMenu,
+                setShowImportExportMenu: setShowImportExportMenu,
+                showPublishGraphMenu: showPublishGraphMenu,
+                setShowPublishGraphMenu: setShowPublishGraphMenu,
+                isBackendOnline: isBackendOnline,
+                setIsBackendOnline: setIsBackendOnline
+            }}>
             {children}
         </ClientViewHandlerContext.Provider>
     )

@@ -2,17 +2,20 @@ import './index.css'
 import { ReactFlow, Background, Controls, addEdge, type Connection } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGraphDataContext } from './contexts/GraphDataContext';
-import { nodeTypes } from './assets/types/NodeTypes';
+import { nodeTypes } from './types/NodeTypes';
 import { useCallback } from 'react';
 import { LeftSideViewManager } from './components/LeftSideViewManager';
 import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToInput';
 import { useClientViewHandlerContext } from './contexts/ClientViewHandlerContext';
 import { resolveCollisions } from './functions/resolveCollisions';
+import UsedMachinesListDisplay from './components/UsedMachinesListDisplay';
+import ImportExportDisplay from './components/ImportExportDisplay';
+import PublishGraphMenu from './components/PublishGraphMenu';
 
 function GraphRenderer() {
   const { nodes, edges, onNodesChange, onEdgesChange, setEdges, setNodes } = useGraphDataContext();
   const copyOutputMaterialToInput = useCopyOutputMaterialToInput();
-  const { divWrapperRef } = useClientViewHandlerContext();
+  const { divWrapperRef, showUsedMachines, showImportExportMenu, showPublishGraphMenu } = useClientViewHandlerContext();
 
   const onConnect = useCallback(
     (params: Connection) => {
@@ -40,6 +43,9 @@ function GraphRenderer() {
 
   return (
     <>
+      {showUsedMachines ? <UsedMachinesListDisplay /> : <></>}
+      {showImportExportMenu ? <ImportExportDisplay /> : <></>}
+      {showPublishGraphMenu ? <PublishGraphMenu /> : <></>}
       <div className="shadow-2xl absolute z-100">
         <LeftSideViewManager />
       </div>

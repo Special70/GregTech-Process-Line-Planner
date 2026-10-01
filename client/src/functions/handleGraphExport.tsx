@@ -1,0 +1,43 @@
+import { useReactFlow } from "@xyflow/react";
+import type { SerializedFlow } from "../types/DataTypes";
+
+// Strip runtime-only fields
+const cleanFlow = ({ nodes, edges, viewport }: SerializedFlow): SerializedFlow => ({
+    nodes: nodes.map(({ id, type, position, data, parentId, extent }) => ({
+        id, type, position, data, parentId, extent,
+    })),
+    edges: edges.map(({ id, source, target, sourceHandle, targetHandle, type, data }) => ({
+        id, source, target, sourceHandle, targetHandle, type, data,
+    })),
+    viewport,
+});
+
+// Export data into copypaste-able string
+const exportToString = (flow: SerializedFlow): string =>
+    JSON.stringify(cleanFlow(flow));
+
+export function useHandleGraphExport() {
+
+    const { toObject } = useReactFlow();
+
+    // convert graph data into string and put it into the provided textarea. user has to manually press the copy button to put 
+    // it in their clipboard
+    const handleGraphExport = (setExportText: React.Dispatch<React.SetStateAction<string>>): void => {
+        const str = exportToString(toObject() as SerializedFlow);
+        setExportText(str);
+    };
+    return handleGraphExport;
+}
+
+export function useHandleGraphExport_returnString() {
+    
+    const { toObject } = useReactFlow();
+    
+    // convert graph data into string and put it into the provided textarea. user has to manually press the copy button to put 
+    // it in their clipboard
+    const handleGraphExport_returnString = (): string => {
+        const str = exportToString(toObject() as SerializedFlow);
+        return str;
+    };
+    return handleGraphExport_returnString;
+}

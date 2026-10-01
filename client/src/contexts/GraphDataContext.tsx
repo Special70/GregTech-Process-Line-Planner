@@ -7,7 +7,7 @@ import {
     type OnNodesChange,
     type OnEdgesChange,
 } from '@xyflow/react';
-import type { NodeData } from '../assets/types/DataTypes';
+import type { NodeData } from '../types/DataTypes';
 
 // Custom node with details
 export type GraphDataNode = Node<NodeData>;

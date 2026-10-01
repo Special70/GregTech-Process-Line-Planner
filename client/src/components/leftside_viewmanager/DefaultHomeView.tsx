@@ -2,6 +2,7 @@ import { useAddMachineNode } from '../../functions/addMachineNode';
 import { useAddSourceNode } from '../../functions/addSourceNode';
 import gregtech_icon from '../../assets/images/startechnology.png'
 import { useNavigate } from 'react-router';
+import { useClientViewHandlerContext } from '../../contexts/ClientViewHandlerContext';
 
 
 /**
@@ -13,6 +14,7 @@ import { useNavigate } from 'react-router';
 export function DefaultHomeView() {
     const addSourceNode = useAddSourceNode();
     const addMachineNode = useAddMachineNode();
+    const { setShowUsedMachines, setShowImportExportMenu, setShowPublishGraphMenu, isBackendOnline } = useClientViewHandlerContext();
 
     let navigate = useNavigate();
 
@@ -27,23 +29,34 @@ export function DefaultHomeView() {
         <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900" onClick={addMachineNode}>
             Create New Machine Node
         </div>
-        <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900">
+        <div className="text-1xl p-3 bg-orange-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900"
+            onClick={() => {
+                setShowImportExportMenu(true);
+            }}>
             Import/Export Graphs
         </div>
-        <div className="text-1xl p-3 bg-gray-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-800 active:bg-gray-900">
+        <div className="text-1xl p-3 bg-gray-400 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-gray-500 active:bg-gray-600" onClick={() => {
+            setShowUsedMachines(true);
+        }}>
             Get Used Machines List
         </div>
-        <div className="text-1xl p-3 bg-green-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-green-800 active:bg-green-900">
-            Publish Graph
-            
-        </div>
-        <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900"
-        onClick={()=>{
-            navigate("/published-graphs")
-        }}
+        {isBackendOnline ? (<><div className="text-1xl p-3 bg-green-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-green-800 active:bg-green-900"
+            onClick={() => {
+                setShowPublishGraphMenu(true);
+            }}
         >
-            View Published Graphs
+            Publish Graph
+
         </div>
+            <div className="text-1xl p-3 bg-yellow-700 font-[Minecraft] text-white w-3/4 text-center m-auto border-2 mt-2 hover:cursor-pointer hover:bg-yellow-800 active:bg-yellow-900"
+                onClick={() => {
+                    navigate("/published-graphs")
+                }}
+            >
+                View Published Graphs
+            </div>
+        </>) : <></>}
+
     </div>
     )
 }

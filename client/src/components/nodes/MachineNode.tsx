@@ -1,6 +1,6 @@
 
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
-import type { GraphNodeType } from '../../assets/types/NodeTypes';
+import type { GraphNodeType } from '../../types/NodeTypes';
 import { useEffect, useRef, useState } from 'react';
 import { getColorBasedOnVoltageTier } from '../../functions/voltageColorClass';
 import { MachineNodeSuggester } from '../machine_node_components/MachineNameSuggester';
@@ -13,6 +13,7 @@ import { useSetMachineVoltageLevel } from '../../functions/setMachineVoltageLeve
 import { useSetMachineProgrammingCircuit } from '../../functions/setMachineProgrammingCircuit';
 import { useRemoveMachineInputOutput } from '../../functions/removeMachineInputOutput';
 import { useSetMachineNotes } from '../../functions/setMachineNotes';
+import { useSetMachineName } from '../../functions/setMachineName';
 
 function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
     const updateNodeInternals = useUpdateNodeInternals();
@@ -23,12 +24,13 @@ function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
     const setMachineProgrammingCircuit = useSetMachineProgrammingCircuit();
     const removeMachineInputOutput = useRemoveMachineInputOutput();
     const setMachineNotes = useSetMachineNotes();
+    const setMachineName = useSetMachineName();
 
     const inputListRef = useRef<HTMLDivElement | any>(null);
     const outputListRef = useRef<HTMLDivElement | any>(null);
 
     const [isEditingMachineName, setIsEditingMachineName] = useState<boolean>(false);
-    const [machineName, setMachineName] = useState<string>("");
+    const [machineNameOfComponent, setMachineNameOfComponent] = useState<string>(nodeProps.data.name);
     const machineNameRef = useRef<HTMLInputElement | any>(null);
 
     const [isAccomplished, setIsAccomplished] = useState<boolean>(false);
@@ -57,10 +59,10 @@ function MachineNode(nodeProps: NodeProps<GraphNodeType>) {
                     autoComplete='off'
                     onFocus={() => { setIsEditingMachineName(true) }}
                     onBlur={() => { setIsEditingMachineName(false) }}
-                    value={machineName}
-                    onChange={(e) => { setMachineName(e.target.value) }}
+                    value={machineNameOfComponent}
+                    onChange={(e) => { setMachineNameOfComponent(e.target.value); setMachineName(nodeProps.id,e.target.value) }}
                 />
-                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={nodeProps.data.id} setName={setMachineName} />)}
+                {isEditingMachineName && (<MachineNodeSuggester inputTag={machineNameRef} nodeId={nodeProps.id} setComponentName={setMachineNameOfComponent}/>)}
             </div>
 
 
