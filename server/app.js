@@ -11,6 +11,7 @@ const supabase = createClient(supabaseUrl, supabasePublishableKey)
 
 // To adjust cors value
 app.use(cors({ origin: process.env.CORS_ORIGIN }));
+app.use(express.json()); // must come BEFORE your routes
 
 // Define a route for GET requests to the root URL
 app.get('/', (req, res) => {
@@ -23,23 +24,35 @@ app.listen(port, () => {
 });
 
 app.post("/publish", async (req, res) => {
-  const author = req.query.author
-  const graphName = req.query.graphName
-  const graphDesc = req.query.graphDesc
-  const graphStringData = req.query.graphStringData
+  
+  const { count: data0, error: error0 } = await supabase.from('published_graphs').select('*', { count: 'exact', head: true })
+  .eq('graph_string_data',req.body.graph_string_data);
 
-  console.log(author);
+  if (data0 > 0) {
+    return res.status(500).send("Duplicate Graphs not allowed.");
+  }
 
-  res.sendStatus(200);
+  const { data, error } = await supabase.from('published_graphs').insert({
+    author: req.body.author,
+    graph_name: req.body.graph_name,
+    graph_description: req.body.graph_description,
+    graph_string_data: req.body.graph_string_data
+  })
+  if (error) {
+    return res.status(500).send(error.message);
+  }
+
+  return res.sendStatus(200);
 
 });
 
 app.get("/published_graphs", async (req, res) => {
+
   const { data, error } = await supabase.from('published_graphs').select('*');
   if (error) {
     console.error(error);
     return res.status(500).json({error: error.message});
   }
 
-  res.status(200).json(data);
+  return res.status(200).json(data);
 })

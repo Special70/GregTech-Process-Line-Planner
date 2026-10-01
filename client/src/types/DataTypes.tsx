@@ -36,6 +36,18 @@ export type PublishedGraph = {
 
 }
 
+export type GraphToPublish = {
+    author: string,
+    graph_name: string,
+    graph_description: string,
+    graph_string_data: string,
+}
+
+export type GraphPublishResult = {
+    safelyPublished: boolean,
+    error: string
+}
+
 // For import/export of graphs
 export type SerializedFlow = {
     nodes: GraphDataNode[];

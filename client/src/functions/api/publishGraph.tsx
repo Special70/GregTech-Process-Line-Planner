@@ -1,13 +1,24 @@
-import type { PublishedGraph } from "../../types/DataTypes";
+import type { GraphPublishResult, GraphToPublish } from "../../types/DataTypes";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function publishGraph(graph: PublishedGraph): Promise<void> {
+export async function publishGraph(graph: GraphToPublish): Promise<GraphPublishResult> {
     const res = await fetch(`${API_URL}/publish`, {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(graph)
         });
-    if (!res.ok) throw new Error(`Request failed: ${res.status}`);
-
+    const errorMsg = await res.text();
+    if (!res.ok) {
+        alert("Error Publishing Graph: "+errorMsg);
+        return {
+            safelyPublished: false,
+            error: errorMsg
+        }
+    }
+    alert("Successfully published graph!")
+        return {
+            safelyPublished: true,
+            error: ""
+        };
 } 

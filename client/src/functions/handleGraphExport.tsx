@@ -12,7 +12,6 @@ const cleanFlow = ({ nodes, edges, viewport }: SerializedFlow): SerializedFlow =
     viewport,
 });
 
-
 // Export data into copypaste-able string
 const exportToString = (flow: SerializedFlow): string =>
     JSON.stringify(cleanFlow(flow));
@@ -23,9 +22,22 @@ export function useHandleGraphExport() {
 
     // convert graph data into string and put it into the provided textarea. user has to manually press the copy button to put 
     // it in their clipboard
-    const handleGraphExport = async (setExportText: React.Dispatch<React.SetStateAction<string>>): Promise<void> => {
+    const handleGraphExport = (setExportText: React.Dispatch<React.SetStateAction<string>>): void => {
         const str = exportToString(toObject() as SerializedFlow);
         setExportText(str);
     };
     return handleGraphExport;
+}
+
+export function useHandleGraphExport_returnString() {
+    
+    const { toObject } = useReactFlow();
+    
+    // convert graph data into string and put it into the provided textarea. user has to manually press the copy button to put 
+    // it in their clipboard
+    const handleGraphExport_returnString = (): string => {
+        const str = exportToString(toObject() as SerializedFlow);
+        return str;
+    };
+    return handleGraphExport_returnString;
 }
