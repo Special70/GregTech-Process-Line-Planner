@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { getPublishedGraphs } from "./functions/api/getPublishedGraphs";
 import type { PublishedGraph } from "./types/DataTypes";
+import { useHandleGraphImport } from "./functions/handleGraphImport";
 
 
 const PublishedGraphsBrowser = () => {
 
-    let navigate = useNavigate();
+    const navigate = useNavigate();
+    const handleGraphImport = useHandleGraphImport()
 
     const [publishedGraphs, setPublishedGraphs] = useState<PublishedGraph[]>([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         _getGraphsAndSave();
-    },[])
+    }, [])
 
     // api fetch is async so when the data arrives, it has to be saved in a useState
     async function _getGraphsAndSave() {
@@ -34,7 +36,7 @@ const PublishedGraphsBrowser = () => {
                 </div>
                 <hr className="w-3/4 m-auto bg-black h-1 mb-5" />
                 <div className="w-7/8 h-150 m-auto grid grid-cols-2 grid-rows-3 gap-5">
-                    {publishedGraphs.map((item)=>{
+                    {publishedGraphs.map((item) => {
                         return _generateClickableChoice(item);
                     })}
                 </div>
@@ -56,9 +58,10 @@ const PublishedGraphsBrowser = () => {
                     By {publishedGraph.graph_description}
                 </div>
                 <div className="bg-green-700 border-2 border-white w-1/4 text-center p-2 bottom-0 absolute mb-2 hover:bg-green-800 active:bg-green-900"
-                onClick={()=>{
-
-                }}
+                    onClick={() => {
+                        handleGraphImport(publishedGraph.graph_string_data);
+                        navigate("/")
+                    }}
                 >
                     Click to load
                 </div>

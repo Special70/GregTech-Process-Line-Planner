@@ -1,3 +1,6 @@
+import type { Edge, Viewport } from "@xyflow/react";
+import type { GraphDataNode } from "../contexts/GraphDataContext";
+
 export type NodeData = {
     id: string,
     type: string,
@@ -33,3 +36,9 @@ export type PublishedGraph = {
 
 }
 
+// For import/export of graphs
+export type SerializedFlow = {
+    nodes: GraphDataNode[];
+    edges: Edge[];
+    viewport?: Viewport;
+};

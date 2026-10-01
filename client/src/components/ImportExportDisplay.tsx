@@ -1,76 +1,22 @@
 import { useEffect, useState } from "react";
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
-import { useGraphDataContext, type GraphDataNode } from "../contexts/GraphDataContext";
-import { useReactFlow, type Edge, type Viewport } from '@xyflow/react'; // 'reactflow' in v11
-
-type SerializedFlow = {
-    nodes: GraphDataNode[];
-    edges: Edge[];
-    viewport?: Viewport;
-};
+import { useHandleGraphImport as useHandleGraphImport } from "../functions/handleGraphImport";
+import { useHandleGraphExport } from "../functions/handleGraphExport";
 
 
-// Strip runtime-only fields
-const cleanFlow = ({ nodes, edges, viewport }: SerializedFlow): SerializedFlow => ({
-    nodes: nodes.map(({ id, type, position, data, parentId, extent }) => ({
-        id, type, position, data, parentId, extent,
-    })),
-    edges: edges.map(({ id, source, target, sourceHandle, targetHandle, type, data }) => ({
-        id, source, target, sourceHandle, targetHandle, type, data,
-    })),
-    viewport,
-});
 
-// Type guard so you validate instead of blindly casting
-const isSerializedFlow = (value: unknown): value is SerializedFlow => {
-    if (typeof value !== 'object' || value === null) return false;
-    const v = value as Record<string, unknown>;
-    return Array.isArray(v.nodes) && Array.isArray(v.edges);
-};
-
-// Export data into copypaste-able string
-const exportToString = (flow: SerializedFlow): string =>
-    JSON.stringify(cleanFlow(flow));
-
-// Imports string into readable json for converting
-const importFromString = (str: string): SerializedFlow => {
-    const parsed: unknown = JSON.parse(str); // throws on invalid JSON
-    if (!isSerializedFlow(parsed)) {
-        throw new Error('Invalid flow string');
-    }
-    return parsed;
-};
 
 const ImportExportDisplay = () => {
     const { setShowImportExportMenu } = useClientViewHandlerContext();
-    const { toObject, setViewport } = useReactFlow();
-    const { setNodes, setEdges } = useGraphDataContext();
+    const handleGraphImport = useHandleGraphImport();
+    const handleGraphExport = useHandleGraphExport();
 
     const [exportText, setExportText] = useState<string>("");
     const [importText, setImportText] = useState<string>("");
     const [showCopyMessage, setShowCopyMessage] = useState<boolean>(false);
 
-    // convert graph data into string and put it into the provided textarea. user has to manually press the copy button to put 
-    // it in their clipboard
-    const handleExport = async (): Promise<void> => {
-        const str = exportToString(toObject() as SerializedFlow);
-        setExportText(str);
-    };
 
-    // it will try to read the contents of the pasted text in the import textarea. may throw errors
-    const handleImport = (): void => {
-        try {
-            const flow = importFromString(importText);
-            setNodes(flow.nodes);
-            setEdges(flow.edges);
-            setViewport(flow.viewport!);
-            setShowImportExportMenu(false);
-        } catch (err) {
-            alert('Could not import: ' + (err instanceof Error ? err.message : String(err)));
-        }
-    };
-
-    useEffect(() => { handleExport() }, [])
+    useEffect(() => { handleGraphExport(setExportText) }, [])
 
     return (
         <>
@@ -102,7 +48,7 @@ const ImportExportDisplay = () => {
                                 setImportText(e.target.value)
                             }}/>
                         <button className="bg-blue-500 text-white text-2xl pl-5 pr-5 border-black border-2
-                    hover:bg-blue-600 active:bg-blue-700" onClick={() => { handleImport()
+                    hover:bg-blue-600 active:bg-blue-700" onClick={() => { handleGraphImport(importText)
                                      }} >Import</button>
 
                     </div>

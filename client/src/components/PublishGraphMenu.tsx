@@ -1,10 +1,15 @@
 import { useReactFlow } from "@xyflow/react";
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
+import { useRef } from "react";
 
 const PublishGraphMenu = () => {
 
     const { setShowPublishGraphMenu } = useClientViewHandlerContext();
     const { getNodes } = useReactFlow();
+
+    const authorNameRef = useRef<HTMLInputElement | undefined>(null);
+    const graphNameRef = useRef<HTMLInputElement | undefined>(null);
+    const graphDescription = useRef<HTMLInputElement | undefined>(null);
 
     return (
         <>
@@ -16,25 +21,27 @@ const PublishGraphMenu = () => {
                     <hr className="w-7/8 h-1 bg-black m-auto" />
                     <div className="w-7/8 m-auto mt-5">
                         <div className="mb-5">
-                            Author Name (Optional)<br/>
-                            <input className="border-2 border-black w-full pl-2" placeholder="Author name to be displayed in published graphs"/>
+                            Author Name (Optional)<br />
+                            <input className="border-2 border-black w-full pl-2" placeholder="Author name to be displayed in published graphs" />
                         </div>
                         <div className="mb-5">
-                            Graph Name<br/>
-                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph"/>
+                            Graph Name<br />
+                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph" />
                         </div>
                         <div className="mb-5">
-                            Graph Description<br/>
-                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph"/>
+                            Graph Description<br />
+                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph" />
                         </div>
                         {
-                            getNodes().length > 0 ? 
-                            <button className="bg-green-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-green-700 active:bg-green-800">Publish</button>
-                            : 
-                            <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800">Cannot Publish Empty Graph</button>
+                            getNodes().length > 0 ?
+                                <button className="bg-green-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-green-700 active:bg-green-800" onClick={() => {
+
+                                }}>Publish</button>
+                                :
+                                <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800">Cannot Publish Empty Graph</button>
                         }
-                        
-                        <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800 mt-5" onClick={()=>{
+
+                        <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800 mt-5" onClick={() => {
                             setShowPublishGraphMenu(false);
                         }}>Exit</button>
                     </div>
