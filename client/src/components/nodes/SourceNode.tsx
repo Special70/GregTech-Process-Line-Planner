@@ -1,6 +1,6 @@
 
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
-import type { GraphNodeType } from '../../assets/types/NodeTypes';
+import type { GraphNodeType } from '../../types/NodeTypes';
 import { useEffect, useMemo, useState } from 'react';
 import { SpriteIcon } from '../machine_node_components/SpriteIcon';
 import { useDeleteNodeAndEdges } from '../../functions/deleteNodeAndEdges';

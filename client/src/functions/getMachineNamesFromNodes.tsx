@@ -1,6 +1,6 @@
 import { useNodes, useReactFlow } from "@xyflow/react";
 import { useGraphDataContext } from "../contexts/GraphDataContext";
-import type { NodeData } from "../assets/types/DataTypes";
+import type { NodeData } from "../types/DataTypes";
 
 export function useGetMachineNamesFromNodes() {
     const {getNodes} = useReactFlow();

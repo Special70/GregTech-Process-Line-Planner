@@ -1,4 +1,4 @@
-import type { OutputIngredientData } from "../assets/types/DataTypes";
+import type { OutputIngredientData } from "../types/DataTypes";
 import { useGraphDataContext } from "../contexts/GraphDataContext";
 
 export function useAddMachineOutput() {

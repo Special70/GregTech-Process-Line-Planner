@@ -24,3 +24,12 @@ export type OutputIngredientData = {
     amount: string,
 }
 
+export type PublishedGraph = {
+    id: number,
+    author: string,
+    graph_name: string,
+    graph_description: string,
+    graph_string_data: string,
+
+}
+

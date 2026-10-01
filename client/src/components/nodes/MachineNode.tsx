@@ -1,6 +1,6 @@
 
 import { Handle, Position, useUpdateNodeInternals, type NodeProps } from '@xyflow/react';
-import type { GraphNodeType } from '../../assets/types/NodeTypes';
+import type { GraphNodeType } from '../../types/NodeTypes';
 import { useEffect, useRef, useState } from 'react';
 import { getColorBasedOnVoltageTier } from '../../functions/voltageColorClass';
 import { MachineNodeSuggester } from '../machine_node_components/MachineNameSuggester';

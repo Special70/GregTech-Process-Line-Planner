@@ -43,7 +43,7 @@ const importFromString = (str: string): SerializedFlow => {
 
 const ImportExportDisplay = () => {
     const { setShowImportExportMenu } = useClientViewHandlerContext();
-    const { toObject } = useReactFlow();
+    const { toObject, setViewport } = useReactFlow();
     const { setNodes, setEdges } = useGraphDataContext();
 
     const [exportText, setExportText] = useState<string>("");
@@ -63,6 +63,8 @@ const ImportExportDisplay = () => {
             const flow = importFromString(importText);
             setNodes(flow.nodes);
             setEdges(flow.edges);
+            setViewport(flow.viewport!);
+            setShowImportExportMenu(false);
         } catch (err) {
             alert('Could not import: ' + (err instanceof Error ? err.message : String(err)));
         }
@@ -73,7 +75,7 @@ const ImportExportDisplay = () => {
     return (
         <>
             <div className="absolute w-screen h-screen bg-black/50 z-1000 flex justify-center items-center">
-                <div className="w-1/2 min-h-1/2 h-auto bg-white border-2 border-black font-[Minecraft] text-black relative">
+                <div className="w-1/2 min-h-1/2 h-auto bg-gray-300 border-2 border-black font-[Minecraft] text-black relative">
                     <div className="text-3xl text-center mt-5">Export Graph</div>
                     <div className="text-1xl text-center ">Copy the text and send it to others for them to put in the Import Field</div>
                     <div className="w-full flex justify-center mb-5 items-center flex-col">
@@ -101,7 +103,7 @@ const ImportExportDisplay = () => {
                             }}/>
                         <button className="bg-blue-500 text-white text-2xl pl-5 pr-5 border-black border-2
                     hover:bg-blue-600 active:bg-blue-700" onClick={() => { handleImport()
-                                    setShowImportExportMenu(false); }} >Import</button>
+                                     }} >Import</button>
 
                     </div>
 

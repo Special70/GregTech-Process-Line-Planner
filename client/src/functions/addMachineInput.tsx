@@ -1,4 +1,4 @@
-import type { InputIngredientData } from "../assets/types/DataTypes";
+import type { InputIngredientData } from "../types/DataTypes";
 import { useGraphDataContext } from "../contexts/GraphDataContext";
 
 export function useAddMachineInput() {

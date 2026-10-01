@@ -1,4 +1,4 @@
-import GraphNodeParentComponent from "../../components/GraphNodeParentComponent";
+import GraphNodeParentComponent from "../components/GraphNodeParentComponent";
 import type { NodeData } from "./DataTypes";
 import type { Node } from '@xyflow/react';
 

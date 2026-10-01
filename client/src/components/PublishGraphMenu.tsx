@@ -1,8 +1,10 @@
+import { useReactFlow } from "@xyflow/react";
 import { useClientViewHandlerContext } from "../contexts/ClientViewHandlerContext";
 
 const PublishGraphMenu = () => {
 
     const { setShowPublishGraphMenu } = useClientViewHandlerContext();
+    const { getNodes } = useReactFlow();
 
     return (
         <>
@@ -25,7 +27,13 @@ const PublishGraphMenu = () => {
                             Graph Description<br/>
                             <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph"/>
                         </div>
-                        <button className="bg-green-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-green-700 active:bg-green-800">Publish</button>
+                        {
+                            getNodes().length > 0 ? 
+                            <button className="bg-green-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-green-700 active:bg-green-800">Publish</button>
+                            : 
+                            <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800">Cannot Publish Empty Graph</button>
+                        }
+                        
                         <button className="bg-red-600 text-white pl-5 pr-5 block m-auto border-2 border-black text-3xl hover:bg-red-700 active:bg-red-800 mt-5" onClick={()=>{
                             setShowPublishGraphMenu(false);
                         }}>Exit</button>

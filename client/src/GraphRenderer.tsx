@@ -2,7 +2,7 @@ import './index.css'
 import { ReactFlow, Background, Controls, addEdge, type Connection } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGraphDataContext } from './contexts/GraphDataContext';
-import { nodeTypes } from './assets/types/NodeTypes';
+import { nodeTypes } from './types/NodeTypes';
 import { useCallback } from 'react';
 import { LeftSideViewManager } from './components/LeftSideViewManager';
 import { useCopyOutputMaterialToInput } from './functions/copyOutputMaterialToInput';
