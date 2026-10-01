@@ -36,8 +36,6 @@ const UsedMachinesListDisplay = () => {
 
                     {Object.keys(machineNamesDetails).length > 0 ? _listBuilder() : _emptyListNoticeBuilder()}
 
-                    <button className="bg-red-500 text-white text-2xl pl-5 pr-5 absolute bottom-15 -translate-x-1/2 left-1/2 border-2 border-black
-                    hover:bg-red-600 active:bg-red-700" onClick={() => { console.log(machineNamesDetails) }}>Debug</button>
                     <button className="bg-red-500 text-white text-2xl pl-5 pr-5 absolute bottom-3 -translate-x-1/2 left-1/2 border-2 border-black
                     hover:bg-red-600 active:bg-red-700" onClick={() => { setShowUsedMachines(false) }}>Exit</button>
                 </div>
