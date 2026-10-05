@@ -1,3 +1,5 @@
+[![Made with AI](https://img.shields.io/badge/Made_with-AI_assistance-blue)](AI-USAGE.md)
+
 # Documentation guide (what your docs must contain)
 
 Your Documentation Update is graded in week 1 and again in week 2. Documentation
