@@ -1,12 +1,8 @@
 # GregTech Process Line Planner
 
-**Live site:** https://yourusername.github.io/your-repo-name/
-**API:** https://your-api.onrender.com/healthz
+**Live site:** https://gregtech-process-line-planner-website.onrender.com  
+**API:** https://gregtech-process-line-planner.onrender.com  
 **Demo video:** (link)
-
-> **This deployment is running in demo mode.** The interface is real; the backend
-> is simulated in your browser so the site works without a server. See
-> [Demo mode](#demo-mode) below. Delete this quote once your API is live.
 
 ![A screenshot of the main screen](docs/assets/screenshot.png)
 
@@ -21,39 +17,60 @@
 
 - React Vite : FrontEnd
 - ExpressJS : Backend
-- MongoDB : Database 
+- Supabase PostgreSQL : Database 
 
 ## Running it yourself         
 
 **The whole stack.** 
 
     # 1. the database
-    docker run --name my-pg -e POSTGRES_PASSWORD=devpassword \
-      -e POSTGRES_DB=haunted -p 5432:5432 -d postgres:17
 
-    # 2. the API
-    cd server
-    npm install
-    cp .env.example .env        # check DATABASE_URL
-    npm run db:reset            # creates the tables and adds sample rows
-    npm run dev                 # http://localhost:3000
+    Table Schema:
+    
+    create table public.published_graphs (
+        id serial not null,
+        author text not null default 'Anonymous'::text,
+        graph_name text not null default ''::text,
+        graph_description text not null default ''::text,
+        graph_string_data text not null default ''::text,
+        constraint users_pkey primary key (id)
+    ) TABLESPACE pg_default;
+
+    # 2. the API (Website can still work without it, but the publish graph and browse page will be disabled)
+    - cd server
+    - npm install
+    - cp .env.example .env        # check DATABASE_URL
+    - # Fill in supabase details at .env
+    - npm run start
 
     # 3. the client, in another terminal
-    cd client
-    npm install
-    cp .env.example .env
-    # set VITE_USE_MOCK_API=false
-    npm run dev
+    - cd client
+    - npm install
+    - cp .env.example .env
+    - # set API_URL to the url of your backend
+    - npm run dev
 
 Check the API on its own before you blame the client:
 
-    curl http://localhost:3000/healthz     # is the process alive
-    curl http://localhost:3000/readyz      # is the database reachable
-    curl http://localhost:3000/api/sightings
+    curl http://localhost:3000/                      # is the process alive
+    curl http://localhost:3000/published_graphs      # returns table contents
 
 ## Environment variables
 
+### Server
+```
+SUPABASE_URL=
+SUPABASE_PUBLISHABLE_KEY=
+SUPABASE_SECRET_KEY=
+SUPABASE_JWKS_URL=
 
+CORS_ORIGIN= (static website url)
+```
+
+### Client
+```
+VITE_API_URL= (backend api url)
+```
 
 ## Deploying
 
@@ -79,8 +96,6 @@ once against the hosted database.
 
 ## Architecture
 
-
-## What I would do next
 
 
 ## Author

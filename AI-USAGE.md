@@ -24,3 +24,16 @@ Note: Will not link commit links involved because the usage is minimal and spota
 
 # Who wrote what
 
+## Functions
+- `publishGraph.tsx` was AI assisted because I don't know how to send POST fetches
+- Creation of the setNode calls to modify specific node properties is AI assisted but after understanding how it works, the rest are manually written.
+- `resolveCollisions.tsx` is from React Flow's website for handling collisions
+- `minecraftColorCodeApplier.tsx` was made by Claude
+- The rest is written manually.
+
+## Components
+- The code for sorting suggested materials based on word length is written by Claude
+- `SpriteIcon.tsx` is mostly AI Assisted
+- `MaterialSuggester.tsx` is partially AI Assisted. Suggested useMemo() to deal with the framerate drop of dragging nodes while the suggester is enabled.
+- In `SourceNode.tsx` and `MachineNode.tsx`, Claude was used to modify the styling of the edge connector of nodes to give them a different size and color.
+- The rest of the components are written manually with little to no AI assist involved.
