@@ -93,12 +93,74 @@ your repository with no workflow at all. Point your host at the `server/` folder
 set the environment variables in its dashboard, and run `server/db/schema.sql`
 once against the hosted database.
 
-## Project structure
+## Project Structure
 
+### Client
+```
+/ : Base files including the .env file
+/dist : Compiled version of the website
+/public/assets : Contains assets and data including json files and webp 
+/src : Holds the project's code
+/src/assets : Holds assets that are more needed in the code via imports
+/src/components : Holds reusable react components
+/src/contexts : Holds react context providers
+/src/enums : Holds the project's enum values
+/src/functions : Holds the project's reusable functions
+/src/types : Holds the project's unique types
+```
+
+### Server
+```
+app.js : The main file of the backend server
+.env : Holds the supabase details needed to successfully connect to the database
+package.json : Holds the library/dependency details  
+```
 
 ## Architecture
 
-
+### Client
+```text
+╔══════════════════════════════════════════════════════════════════════════════════════╗
+║                              CLIENT ARCHITECTURE                                     ║
+╠══════════════════════════════════════════════════════════════════════════════════════╣
+║  Browser entry → Main.tsx                                                            ║
+║      │                                                                               ║
+║      ├─ HashRouter                                                                   ║
+║      ├─ ClientViewHandlerContextProvider                                             ║
+║      ├─ ReactFlowProvider                                                            ║
+║      ├─ GraphDataContextProvider                                                     ║
+║      ├─ MaterialSuggesterDataProvider                                                ║
+║      └─ AssetDataContextProvider                                                     ║
+║          │                                                                           ║
+║          ├─ /  → GraphRenderer.tsx                                                   ║
+║          └─ /published-graphs → PublishedGraphsBrowser.tsx                           ║
+║                                                                                      ║
+║  ┌────────────────────────────────┐  ┌──────────────────────────────────────┐        ║
+║  │ Graph editor / UI shell        │  │ Supporting data & state              │        ║
+║  │ • GraphRenderer.tsx            │  │ • GraphDataContext.tsx               │        ║
+║  │ • SourceNode / MachineNode     │  │ • AssetDataContext.tsx               │        ║
+║  │ • LeftSideViewManager          │  │ • MaterialSuggesterDataContext.tsx   │        ║
+║  │ • PublishGraphMenu             │  │ • ClientViewHandlerContext.tsx       │        ║
+║  └────────────────────────────────┘  └──────────────────────────────────────┘        ║
+║                  │                                                                   ║
+║                  ├─ node logic / graph actions                                       ║
+║                  │                                                                   ║
+║  ┌───────────────┴─────────────────┐  ┌──────────────────────────────────────┐       ║
+║  │ components/                     │  │ functions/                           │       ║
+║  │ • nodes/                        │  │ • addMachineNode.tsx                 │       ║
+║  │ • machine_node_components/      │  │ • addSourceNode.tsx                  │       ║
+║  │ • leftside_viewmanager/         │  │ • resolveCollisions.tsx              │       ║
+║  │ • ImportExportDisplay.tsx       │  │ • handleGraphImport.tsx              │       ║
+║  │ • UsedMachinesListDisplay.tsx   │  │ • handleGraphExport.tsx              │       ║
+║  └─────────────────────────────────┘  └──────────────────────────────────────┘       ║
+║                                                                                      ║
+║  Data / assets                                                                       ║
+║  ┌──────────────────────────────────────────────────────────────────────────────┐    ║
+║  │ public/assets/data/*.json • atlas.json • emi_categories.json                 │    ║
+║  │ img_to_name_pairs.json • sprite assets • local Minecraft/GregTech data       │    ║
+║  └──────────────────────────────────────────────────────────────────────────────┘    ║
+╚══════════════════════════════════════════════════════════════════════════════════════╝
+```
 
 ## Author
 
