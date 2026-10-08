@@ -33,7 +33,7 @@ const PublishGraphMenu = () => {
                         </div>
                         <div className="mb-5">
                             Graph Description<br />
-                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying name for your graph" ref={graphDescriptionRef} />
+                            <input className="border-2 border-black w-full pl-2" placeholder="Identifying description for your graph" ref={graphDescriptionRef} />
                         </div>
                         {
                             getNodes().length > 0 ?
