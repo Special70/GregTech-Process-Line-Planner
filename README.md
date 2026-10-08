@@ -1,3 +1,5 @@
+[![Made with AI](https://img.shields.io/badge/Made_with-AI_assistance-blue)](AI-USAGE.md)
+
 # GregTech Process Line Planner
 
 **Live site:** https://gregtech-process-line-planner-website.onrender.com  
